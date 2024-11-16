@@ -7,26 +7,10 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Outlet, RouterProvider } from "react-router";
 import { NavLink, createBrowserRouter } from "react-router-dom";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./components/ui/card";
-import { Label } from "./components/ui/label";
-import { Input } from "./components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./components/ui/select";
-import { Button } from "./components/ui/button";
 import { cn } from "./lib/utils";
-import { LoopIcon, OpacityIcon } from "@radix-ui/react-icons"
+import { LoopIcon, OpacityIcon } from "@radix-ui/react-icons";
+import Pools from "./pages/Pools";
+import Swap from "./pages/Swap";
 // import { Button } from "@/components/ui/button";
 // import WebApp from "@twa-dev/sdk";
 // import { useCounterContract } from "./hooks/useCounterContract";
@@ -137,7 +121,7 @@ function TopNavigator() {
       </header>
 
       {/* Main Content */}
-      <div className="container pb-[12px] pt-4 flex flex-1 justify-center duration-[0.2s] transition-[background-color] ease-[ease-in-out] z-[1]">
+      <div>
         <Outlet />
       </div>
 
@@ -158,7 +142,7 @@ function TopNavigator() {
                       )
                     }
                   >
-                    <Icon className="inline-block"/>{' '}{label}
+                    <Icon className="inline-block" /> {label}
                   </NavLink>
                 </NavigationMenuItem>
               ))}
@@ -167,84 +151,6 @@ function TopNavigator() {
         </div>
       </footer>
     </>
-  );
-}
-
-function Swap() {
-  return (
-    <Card className="w-[350px]">
-      <CardHeader>
-        <CardTitle>Swap Page</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Name of your project" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Framework</Label>
-              <Select>
-                <SelectTrigger id="framework">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="next">Next.js</SelectItem>
-                  <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                  <SelectItem value="astro">Astro</SelectItem>
-                  <SelectItem value="nuxt">Nuxt.js</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </form>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="outline">Cancel</Button>
-        <Button>Deploy</Button>
-      </CardFooter>
-    </Card>
-  );
-}
-
-function Pools() {
-  return (
-    <Card className="w-[350px]">
-      <CardHeader>
-        <CardTitle>Pools Page</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Name of your project" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Framework</Label>
-              <Select>
-                <SelectTrigger id="framework">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="next">Next.js</SelectItem>
-                  <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                  <SelectItem value="astro">Astro</SelectItem>
-                  <SelectItem value="nuxt">Nuxt.js</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </form>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="outline">Cancel</Button>
-        <Button>Deploy</Button>
-      </CardFooter>
-    </Card>
   );
 }
 
