@@ -26,10 +26,16 @@ import {
 } from "./components/ui/select";
 import { Button } from "./components/ui/button";
 import { cn } from "./lib/utils";
+import { LoopIcon, OpacityIcon } from "@radix-ui/react-icons"
 // import { Button } from "@/components/ui/button";
 // import WebApp from "@twa-dev/sdk";
 // import { useCounterContract } from "./hooks/useCounterContract";
 // import { useTonConnect } from "./hooks/useTonConnect";
+
+const ROUTES = [
+  { path: "swaps", label: "Swap", isIndex: true, icon: LoopIcon },
+  { path: "pools", label: "Pools", isIndex: false, icon: OpacityIcon },
+];
 
 const router = createBrowserRouter(
   [
@@ -39,7 +45,6 @@ const router = createBrowserRouter(
       children: [
         {
           index: true,
-          path: "swaps",
           element: <Swap />,
         },
         {
@@ -83,90 +88,80 @@ function App() {
 function TopNavigator() {
   return (
     <>
+      {/* Header */}
       <header className="flex justify-center px-4 z-10">
-        <div className="container grid grid-cols-[1fr_3fr] items-center px-5 py-10 md:grid-cols-[1fr_auto_1fr]">
+        <div className="container grid grid-cols-[1fr_3fr] items-center px-5 py-5 md:py-10 md:grid-cols-[1fr_auto_1fr]">
+          {/* Logo and Brand */}
           <div className="flex items-center justify-start">
             <NavLink to="/orbiton-mini-app/">
-              <div className="inline-flex items-center  justify-between px-xs md:w-[102px]">
+              <div className="inline-flex items-center justify-between px-xs md:w-[102px]">
                 <div className="relative">
                   <Logo className="w-20 h-20" />
                 </div>
-                <span className="text-3xl ml-4 m-auto hidden font-semibold md:inline-block">
+                <span className="text-3xl ml-4 hidden font-semibold md:inline-block">
                   Orbiton
                 </span>
               </div>
             </NavLink>
           </div>
-          <div className="items-center hidden md:flex">
+
+          {/* Desktop Navigation */}
+          <nav className="items-center hidden md:flex">
             <NavigationMenu>
               <NavigationMenuList className="gap-10 text-2xl">
-                <NavigationMenuItem>
-                  <NavLink
-                    to="/orbiton-mini-app/swaps"
-                    className={({ isActive }) => {
-                      return cn(
-                        "hover:bg-slate-200 hover:text-blue-800 py-3 px-8 rounded-full",
-                        [isActive ? "text-blue-800" : ""]
-                      );
-                    }}
-                  >
-                    Swap
-                  </NavLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavLink
-                    to="/orbiton-mini-app/pools"
-                    className={({ isActive }) => {
-                      return cn(
-                        "hover:bg-slate-200 hover:text-blue-800 py-3 px-8 rounded-full",
-                        [isActive ? "text-blue-800" : ""]
-                      );
-                    }}
-                  >
-                    Pools
-                  </NavLink>
-                </NavigationMenuItem>
+                {ROUTES.map(({ path, label, isIndex }) => (
+                  <NavigationMenuItem key={path}>
+                    <NavLink
+                      to={`/orbiton-mini-app/${isIndex ? "" : path}`}
+                      end={isIndex} // Ensures "Swap" (index) matches exactly
+                      className={({ isActive }) =>
+                        cn(
+                          "hover:bg-slate-200 hover:text-blue-800 py-3 px-8 rounded-full",
+                          isActive && "text-blue-800"
+                        )
+                      }
+                    >
+                      {label}
+                    </NavLink>
+                  </NavigationMenuItem>
+                ))}
               </NavigationMenuList>
             </NavigationMenu>
-          </div>
+          </nav>
+
+          {/* Connect Button */}
           <div className="flex justify-end text-4xl">
             <TonConnectButton style={{ fontSize: 20 }} />
           </div>
         </div>
       </header>
+
+      {/* Main Content */}
       <div className="container pb-[12px] pt-4 flex flex-1 justify-center duration-[0.2s] transition-[background-color] ease-[ease-in-out] z-[1]">
         <Outlet />
       </div>
+
+      {/* Footer */}
       <footer>
-        <div className="fixed bottom-8 w-full md:hidden">
-          <NavigationMenu className="max-w">
+        <div className="fixed bottom-0 py-4 w-full md:hidden border-t-[1px] border-black">
+          <NavigationMenu className="max-w-full">
             <NavigationMenuList className="gap-10 text-2xl">
-              <NavigationMenuItem>
-                <NavLink
-                  to="/orbiton-mini-app/swaps"
-                  className={({ isActive }) => {
-                    return cn(
-                      "hover:bg-slate-200 hover:text-blue-800 py-3 px-8 rounded-full",
-                      [isActive ? "text-blue-800" : ""]
-                    );
-                  }}
-                >
-                  Swap
-                </NavLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavLink
-                  to="/orbiton-mini-app/pools"
-                  className={({ isActive }) => {
-                    return cn(
-                      "hover:bg-slate-200 hover:text-blue-800 py-3 px-8 rounded-full",
-                      [isActive ? "text-blue-800" : ""]
-                    );
-                  }}
-                >
-                  Pools
-                </NavLink>
-              </NavigationMenuItem>
+              {ROUTES.map(({ path, label, isIndex, icon: Icon }) => (
+                <NavigationMenuItem key={path}>
+                  <NavLink
+                    to={`/orbiton-mini-app/${isIndex ? "" : path}`}
+                    end={isIndex}
+                    className={({ isActive }) =>
+                      cn(
+                        "hover:text-blue-800 py-3 px-8 rounded-full",
+                        isActive && "text-blue-800 bg-slate-200"
+                      )
+                    }
+                  >
+                    <Icon className="inline-block"/>{' '}{label}
+                  </NavLink>
+                </NavigationMenuItem>
+              ))}
             </NavigationMenuList>
           </NavigationMenu>
         </div>
