@@ -2,14 +2,8 @@ import { TonConnectButton } from "@tonconnect/ui-react";
 import Logo from "@/assets/logo-orbiton.svg?react";
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import { Outlet, RouterProvider } from "react-router";
 import { NavLink, createBrowserRouter } from "react-router-dom";
