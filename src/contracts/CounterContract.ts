@@ -15,7 +15,9 @@ export type CounterContractConfig = {
   owner_address: Address;
 };
 
-export function counterContractConfigToCell(config: CounterContractConfig): Cell {
+export function counterContractConfigToCell(
+  config: CounterContractConfig
+): Cell {
   return beginCell()
     .storeUint(config.number, 32)
     .storeAddress(config.address)

@@ -1,8 +1,9 @@
-import "./App.css";
 import { TonConnectButton } from "@tonconnect/ui-react";
+import "./App.css";
+import { Button } from "@/components/ui/button";
+import WebApp from "@twa-dev/sdk";
 import { useCounterContract } from "./hooks/useCounterContract";
 import { useTonConnect } from "./hooks/useTonConnect";
-import WebApp from "@twa-dev/sdk";
 
 function App() {
   const { address, value, sendIncrement, contract_balance } =
@@ -15,7 +16,11 @@ function App() {
   };
 
   return (
-    <div>
+    <>
+      <div>
+        <Button>Click me</Button>
+      </div>
+
       <div>
         <TonConnectButton />
       </div>
@@ -53,7 +58,7 @@ function App() {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
