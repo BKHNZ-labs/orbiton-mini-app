@@ -1,8 +1,15 @@
 import { useTonConnectUI } from "@tonconnect/ui-react";
-import { Sender, SenderArguments } from "ton-core";
+import { useEffect } from "react";
+import { address, Sender, SenderArguments } from "ton-core";
 
-export function useTonConnect(): { sender: Sender; connected: boolean } {
+export function useTonConnect(): { sender: Sender; } {
   const [tonConnectUI] = useTonConnectUI();
+
+  useEffect(() => {
+    if (tonConnectUI.connected) {
+      
+    }
+  }, [tonConnectUI]);
 
   return {
     sender: {
@@ -15,10 +22,10 @@ export function useTonConnect(): { sender: Sender; connected: boolean } {
               payload: args.body?.toBoc().toString("base64"),
             },
           ],
-          validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes for user to approve
+          validUntil: Date.now() + 5 * 60 * 1000,
         });
       },
-    },
-    connected: tonConnectUI.connected,
+      address: tonConnectUI.account ? address(tonConnectUI.account.address) : undefined,
+    }
   };
 }

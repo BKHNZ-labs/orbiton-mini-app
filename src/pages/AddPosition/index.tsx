@@ -1,10 +1,4 @@
-import {
-  ArrowLeft,
-  Minus,
-  Plus,
-  ZoomIn,
-  ZoomOut,
-} from "lucide-react";
+import { Minus, Plus, X, ZoomIn, ZoomOut } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -25,7 +19,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
-import { Cross2Icon } from "@radix-ui/react-icons";
 
 export default function AddPosition() {
   const [feeTier, setFeeTier] = useState("0.30");
@@ -51,14 +44,11 @@ export default function AddPosition() {
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <Button>+ New Pool</Button>
+      <DialogTrigger className="w-full py-2 md:px-4 bg-[#1a1a1a] text-white rounded-2xl">
+        + New Position
       </DialogTrigger>
-      <DialogContent className="max-w-xl max-h-screen overflow-y-auto sm:max-h-[90vh]" >
-        <DialogHeader className="flex-row justify-between items-center space-x-0 space-y-0">
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
+      <DialogContent className="max-w-xl max-h-screen overflow-y-auto sm:max-h-[90vh] [&>button]:hidden">
+        <DialogHeader className="flex-row justify-center items-center space-x-0 space-y-0">
           <DialogTitle>Add liquidity</DialogTitle>
           {/* <div className="flex gap-2"> */}
           {/* <Button variant="ghost" size="sm" className="text-purple-600">
@@ -68,10 +58,9 @@ export default function AddPosition() {
               <Settings className="h-4 w-4" />
             </Button> */}
           {/* </div> */}
-          <DialogClose>
-            <button aria-label="Close">
-              <Cross2Icon />
-            </button>
+          <DialogClose className="absolute right-6 top-6 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
           </DialogClose>
         </DialogHeader>
 

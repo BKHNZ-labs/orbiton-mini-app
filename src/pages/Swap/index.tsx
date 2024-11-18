@@ -19,6 +19,7 @@ import {
   Triangle,
 } from "lucide-react";
 import { useState } from "react";
+import TokenSelector from "../TokenSelector";
 
 export default function Swap() {
   const [amount1, setAmount1] = useState("");
@@ -51,23 +52,27 @@ export default function Swap() {
         <CardContent className="space-y-4">
           <div className="space-y-4">
             <div className="rounded-lg bg-gray-50 p-4 border border-gray-200">
-              <div className="flex justify-between mb-2">
-                <Input
-                  type="number"
-                  value={amount1}
-                  onChange={(e) => setAmount1(e.target.value)}
-                  className="border-0 bg-transparent text-2xl text-gray-800 placeholder:text-gray-400 focus-visible:ring-0 p-0 h-auto"
-                  placeholder="0"
-                />
-                <Button
-                  variant="outline"
-                  className="text-gray-800 hover:bg-gray-100 gap-2"
-                >
-                  <Box className="h-5 w-5 text-amber-500" />
-                  DUST
-                  <ChevronDown />
-                </Button>
-              </div>
+              <TokenSelector
+                children={
+                  <div className="flex justify-between mb-2">
+                    <Input
+                      type="number"
+                      value={amount1}
+                      onChange={(e) => setAmount1(e.target.value)}
+                      className="border-0 bg-transparent text-2xl text-gray-800 placeholder:text-gray-400 focus-visible:ring-0 p-0 h-auto"
+                      placeholder="0"
+                    />
+                    <Button
+                      variant="outline"
+                      className="text-gray-800 hover:bg-gray-100 gap-2"
+                    >
+                      <Box className="h-5 w-5 text-amber-500" />
+                      DUST
+                      <ChevronDown />
+                    </Button>
+                  </div>
+                }
+              />
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">${amount1 ? "0" : "0"}</span>
                 <span className="text-gray-500">
@@ -87,23 +92,27 @@ export default function Swap() {
             </div>
 
             <div className="rounded-lg bg-gray-50 p-4 border border-gray-200">
-              <div className="flex justify-between mb-2">
-                <Input
-                  type="number"
-                  value={amount2}
-                  onChange={(e) => setAmount2(e.target.value)}
-                  className="border-0 bg-transparent text-2xl text-gray-800 placeholder:text-gray-400 focus-visible:ring-0 p-0 h-auto"
-                  placeholder="0"
-                />
-                <Button
-                  variant="outline"
-                  className="text-gray-800 hover:bg-gray-100 gap-2"
-                >
-                  <Triangle className="h-5 w-5 text-blue-500 fill-blue-500" />
-                  TON
-                  <ChevronDown />
-                </Button>
-              </div>
+              <TokenSelector
+                children={
+                  <div className="flex justify-between mb-2">
+                    <Input
+                      type="number"
+                      value={amount2}
+                      onChange={(e) => setAmount2(e.target.value)}
+                      className="border-0 bg-transparent text-2xl text-gray-800 placeholder:text-gray-400 focus-visible:ring-0 p-0 h-auto"
+                      placeholder="0"
+                    />
+                    <Button
+                      variant="outline"
+                      className="text-gray-800 hover:bg-gray-100 gap-2"
+                    >
+                      <Triangle className="h-5 w-5 text-blue-500 fill-blue-500" />
+                      TON
+                      <ChevronDown />
+                    </Button>
+                  </div>
+                }
+              />
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">${amount2 ? "0" : "0"}</span>
                 <span className="text-gray-500">

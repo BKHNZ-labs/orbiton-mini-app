@@ -1,4 +1,4 @@
-import { TonConnectButton } from "@tonconnect/ui-react";
+import { TonConnectButton, useTonAddress, useTonWallet } from "@tonconnect/ui-react";
 import Logo from "@/assets/logo-orbiton.svg?react";
 import {
   NavigationMenu,
@@ -11,6 +11,9 @@ import { cn } from "./lib/utils";
 import { LoopIcon, OpacityIcon } from "@radix-ui/react-icons";
 import Pools from "./pages/Pools";
 import Swap from "./pages/Swap";
+import { useEffect } from "react";
+import { useToast } from "./hooks/use-toast";
+import { useJetton } from "./hooks/useJetton";
 // import { Button } from "@/components/ui/button";
 // import WebApp from "@twa-dev/sdk";
 // import { useCounterContract } from "./hooks/useCounterContract";
@@ -50,14 +53,19 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  // const { address, value, sendIncrement, contract_balance } =
-  //   useCounterContract();
+  const userFriendlyAddress = useTonAddress();
+  const { toast } = useToast();
+  useJetton();
 
-  // const { connected } = useTonConnect();
-
-  // const showAlert = () => {
-  //   WebApp.showAlert("Hey there!");
-  // };
+  useEffect(() => {
+    if (userFriendlyAddress) {
+      toast({
+        title: "Welcome to Orbiton Swap",
+        description: `Your address: ${userFriendlyAddress}`,
+        duration: 1000,
+      });
+    }
+  }, [userFriendlyAddress, toast]);
 
   return (
     <RouterProvider
