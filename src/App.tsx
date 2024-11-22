@@ -6,7 +6,10 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Outlet, RouterProvider } from "react-router";
-import { NavLink, createBrowserRouter } from "react-router-dom";
+import {
+  NavLink,
+  createHashRouter,
+} from "react-router-dom";
 import { cn } from "./lib/utils";
 import { LoopIcon, OpacityIcon } from "@radix-ui/react-icons";
 import Pools from "./pages/Pools";
@@ -28,25 +31,20 @@ const ROUTES = [
   { path: "pools", label: "Pools", isIndex: false, icon: OpacityIcon },
 ];
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   [
     {
       path: "/",
       element: <TopNavigator />,
       children: [
-        {
-          index: true,
-          element: <Swap />,
-        },
-        {
-          path: "pools",
-          element: <Pools />,
-        },
+        { index: true, element: <Swap /> },
+        { path: "pools", element: <Pools /> },
       ],
     },
   ],
   {
     future: {
+      // Enabling future-proof features for v7
       v7_relativeSplatPath: true,
       v7_fetcherPersist: true,
       v7_normalizeFormMethod: true,
@@ -58,7 +56,7 @@ const router = createBrowserRouter(
 
 function App() {
   const userFriendlyAddress = useTonAddress();
-  
+
   const client = useTonClient();
   const { toast } = useToast();
   const { setBalance, fetchBalance } = useTokenStore();
@@ -138,7 +136,7 @@ function TopNavigator() {
                 {ROUTES.map(({ path, label, isIndex }) => (
                   <NavigationMenuItem key={path}>
                     <NavLink
-                      to={`/${isIndex ? "" : path}`}
+                      to={`${isIndex ? "" : path}`}
                       end={isIndex} // Ensures "Swap" (index) matches exactly
                       className={({ isActive }) =>
                         cn(
@@ -175,7 +173,7 @@ function TopNavigator() {
               {ROUTES.map(({ path, label, isIndex, icon: Icon }) => (
                 <NavigationMenuItem key={path}>
                   <NavLink
-                    to={`/${isIndex ? "" : path}`}
+                    to={`${isIndex ? "" : path}`}
                     end={isIndex}
                     className={({ isActive }) =>
                       cn(

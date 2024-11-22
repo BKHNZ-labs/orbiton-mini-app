@@ -2,7 +2,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
-import { Toaster } from "@/components/ui/toaster";
 
 // this manifest is used temporarily for development purposes
 const manifestUrl =
@@ -11,6 +10,5 @@ const manifestUrl =
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <TonConnectUIProvider manifestUrl={manifestUrl}>
     <App />
-    
   </TonConnectUIProvider>
 );
