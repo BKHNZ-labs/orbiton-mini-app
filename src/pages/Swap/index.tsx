@@ -20,9 +20,12 @@ import { useState } from "react";
 import TokenSelector from "../TokenSelector";
 import { Token } from "@/interfaces";
 import useTokenStore from "@/store/tokenStore";
+import { useCounterContract } from "@/hooks/useCounterContract";
 
 export default function Swap() {
   const tokens = useTokenStore((state) => state.tokenList);
+
+  const { sendIncrement } = useCounterContract();
 
   const [token0, setToken0] = useState<Token>(tokens[0]);
   const [token1, setToken1] = useState<Token>(tokens[1]);
@@ -141,6 +144,7 @@ export default function Swap() {
           <Button
             className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-lg"
             size="lg"
+            onClick={() => sendIncrement()}
           >
             Swap
           </Button>
