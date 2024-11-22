@@ -16,7 +16,6 @@ import { useToast } from "./hooks/use-toast";
 import useTokenStore from "./store/tokenStore";
 import { useTonClient } from "./hooks/useTonClient";
 import { Address } from "@ton/core";
-import { getJettonBalance } from "./scripts/jetton";
 // import { Button } from "@/components/ui/button";
 // import WebApp from "@twa-dev/sdk";
 // import { useCounterContract } from "./hooks/useCounterContract";

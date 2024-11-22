@@ -1,4 +1,4 @@
-import { Box, ChevronDown, Minus, Plus, X } from "lucide-react";
+import { ChevronDown, Minus, Plus, X } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -7,19 +7,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import useTokenStore from "@/store/tokenStore";
-import { Token } from "@/interfaces";
 import { Pool } from "@/interfaces/pool";
 import { FeeAmount } from "@/interfaces/fee";
 import TokenSelector from "../TokenSelector";

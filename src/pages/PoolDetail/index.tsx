@@ -1,6 +1,6 @@
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Pool } from "@/interfaces/pool";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import AddPosition from "../AddPosition";

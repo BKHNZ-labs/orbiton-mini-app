@@ -68,7 +68,7 @@ export default function Pools() {
         onClose={() => {
           setSelectedPool(null);
         }}
-        pool={selectedPool ? selectedPool : pools[0]}
+        pool={(selectedPool ? selectedPool : pools[0]) as any}
         key={selectedPool?.id}
       />
 
@@ -93,7 +93,7 @@ export default function Pools() {
                     <TableCell className="font-medium">
                       <div
                         className="flex items-center gap-2"
-                        onClick={() => setSelectedPool(pool)}
+                        onClick={() => setSelectedPool(pool as any)}
                       >
                         <div className="flex -space-x-1">
                           <img

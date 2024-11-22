@@ -1,4 +1,3 @@
-import { FeeAmount } from "./fee";
 import { Token } from "./token";
 
 export type Pool = {
@@ -12,7 +11,7 @@ export type Pool = {
   volume: string;
   fees: string;
   apr: string;
-  friendlyFee: FeeAmount;
+  friendlyFee: string;
   fee: number;
   tickSpacing: number;
 };

@@ -11,12 +11,10 @@ import {
 import { Input } from "@/components/ui/input";
 import {
   ArrowDownUp,
-  Box,
   ChevronDown,
   Circle,
   RefreshCcw,
   Settings,
-  Triangle,
 } from "lucide-react";
 import { useState } from "react";
 import TokenSelector from "../TokenSelector";
