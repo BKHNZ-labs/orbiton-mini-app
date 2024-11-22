@@ -1,4 +1,4 @@
-import { TonConnectButton, useTonAddress, useTonWallet } from "@tonconnect/ui-react";
+import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
 import Logo from "@/assets/logo-orbiton.svg?react";
 import {
   NavigationMenu,
@@ -13,7 +13,10 @@ import Pools from "./pages/Pools";
 import Swap from "./pages/Swap";
 import { useEffect } from "react";
 import { useToast } from "./hooks/use-toast";
-import { useJetton } from "./hooks/useJetton";
+import useTokenStore from "./store/tokenStore";
+import { useTonClient } from "./hooks/useTonClient";
+import { Address } from "@ton/core";
+import { getJettonBalance } from "./scripts/jetton";
 // import { Button } from "@/components/ui/button";
 // import WebApp from "@twa-dev/sdk";
 // import { useCounterContract } from "./hooks/useCounterContract";
@@ -54,8 +57,9 @@ const router = createBrowserRouter(
 
 function App() {
   const userFriendlyAddress = useTonAddress();
+  const client = useTonClient();
   const { toast } = useToast();
-  useJetton();
+  const { setBalance, fetchBalance } = useTokenStore();
 
   useEffect(() => {
     if (userFriendlyAddress) {
@@ -64,8 +68,35 @@ function App() {
         description: `Your address: ${userFriendlyAddress}`,
         duration: 1000,
       });
+      fetchBalance(userFriendlyAddress);
     }
   }, [userFriendlyAddress, toast]);
+
+  useEffect(() => {
+    async function getBalance() {
+      if (!(client && userFriendlyAddress)) return;
+      const balance = await client.getBalance(
+        Address.parse(userFriendlyAddress)
+      );
+      // hardcode to ton native token
+      setBalance(1, balance.toString());
+
+      // for (const token of tokenList) {
+      //   if (token.address === null) continue;
+      //   console.log(token);
+      //   const balance = await getJettonBalance(
+      //     client,
+      //     Address.parse(userFriendlyAddress),
+      //     Address.parse(token.address!)
+      //   );
+      //   setBalance(token.id, balance.toString());
+      //   // sleep 200ms
+      //   await new Promise((resolve) => setTimeout(resolve, 1000));
+      // }
+    }
+
+    getBalance();
+  }, [client, userFriendlyAddress]);
 
   return (
     <RouterProvider

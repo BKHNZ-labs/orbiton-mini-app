@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "address": "EQDG-VzWlMeJvNezEJnHSjPBoZ9rPnnUSr7gd0gT3kyJNnWa",
+    "token0": {
+      "id": 2,
+      "type": "jetton",
+      "address": "EQAJmXoHKPsbrriLEfElP6N9mGDlsSHMZI0ZbTtq_NyJTQ43",
+      "name": "DeDust",
+      "symbol": "DUST",
+      "description": null,
+      "image": "https://assets.dedust.io/images/dust.gif",
+      "decimals": 9,
+      "aliased": true,
+      "price": "3.7803",
+      "source": null
+    },
+    "token1": {
+      "id": 3,
+      "type": "jetton",
+      "address": "EQB1AmBvXCeHrUh9-N7yASBPxVfKD5NJg9AB0cbakt_fDZ5P",
+      "name": "Tether USD",
+      "symbol": "USDT",
+      "description": null,
+      "image": "https://assets.dedust.io/images/usdt.webp",
+      "decimals": 9,
+      "aliased": true,
+      "price": "0.9983",
+      "source": null
+    },
+    "token0Amount": "3.93M",
+    "token1Amount": "21.3M",
+    "tvl": "$42.66M",
+    "volume": "$8.97M",
+    "fees": "$8.97K",
+    "apr": "24.96%",
+    "friendlyFee": "0.3",
+    "fee": 3000,
+    "tickSpacing": 60
+  }
+]

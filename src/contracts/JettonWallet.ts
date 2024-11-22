@@ -12,7 +12,7 @@ import {
 
 export type JettonWalletConfig = {};
 
-export function jettonWalletConfigToCell(config: JettonWalletConfig): Cell {
+export function jettonWalletConfigToCell(_config: JettonWalletConfig): Cell {
   return beginCell().endCell();
 }
 

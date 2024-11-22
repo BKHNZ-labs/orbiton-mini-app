@@ -9,10 +9,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Circle, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import AddPosition from "../AddPosition";
+import tokens from "@/assets/tokens.json";
+import { Pool } from "@/interfaces/pool";
+import PoolDetail from "../PoolDetail";
+import { useState } from "react";
+import pools from "@/assets/pools.json";
 
 export default function Pools() {
+  const [selectedPool, setSelectedPool] = useState<Pool | null>(null);
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
       <div className="max-w-[1200px] mx-auto space-y-6">
@@ -29,27 +36,20 @@ export default function Pools() {
 
           <div className="flex gap-2 flex-wrap">
             <div className="text-gray-500 flex items-center">Filters</div>
-            <Badge
-              variant="secondary"
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700"
-            >
-              <Circle className="mr-1 h-4 w-4 text-blue-500" />
-              TON
-            </Badge>
-            <Badge
-              variant="secondary"
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700"
-            >
-              <Circle className="mr-1 h-4 w-4 text-amber-500" />
-              DUST
-            </Badge>
-            <Badge
-              variant="secondary"
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700"
-            >
-              <Circle className="mr-1 h-4 w-4 text-emerald-500" />
-              USDT
-            </Badge>
+            {tokens.map((token) => (
+              <Badge
+                key={token.id}
+                variant="secondary"
+                className="bg-gray-100 hover:bg-gray-200 text-gray-700"
+              >
+                <img
+                  src={token.image}
+                  alt={token.name}
+                  className="w-4 h-4 mr-1 rounded-full"
+                />
+                {token.symbol}
+              </Badge>
+            ))}
           </div>
         </div>
 
@@ -58,13 +58,19 @@ export default function Pools() {
             <div className="flex items-center gap-2 mb-4 sm:mb-0">
               <h2 className="font-medium text-gray-900">Pool list</h2>
             </div>
-            {/* <div className="flex flex-col sm:flex-row gap-3">
-              <Button>Create pool</Button>
-            </div> */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <AddPosition />
+              <AddPosition isCreatedPool={true} />
             </div>
           </div>
+
+          <PoolDetail
+        isOpen={selectedPool !== null}
+        onClose={() => {
+          setSelectedPool(null);
+        }}
+        pool={selectedPool ? selectedPool : pools[0]}
+        key={selectedPool?.id}
+      />
 
           <div className="overflow-x-auto">
             <Table>
@@ -73,60 +79,49 @@ export default function Pools() {
                   <TableHead>Pair</TableHead>
                   <TableHead className="text-right">TVL</TableHead>
                   <TableHead className="text-right hidden md:table-cell">
-                    Volume (24h)
+                    Volume
                   </TableHead>
                   <TableHead className="text-right hidden md:table-cell">
-                    Fees (24h)
+                    Fees
                   </TableHead>
                   <TableHead className="text-right">APR</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow className="hover:bg-gray-50">
-                  <TableCell className="font-medium">
-                    <div className="flex items-center gap-2">
-                      <div className="flex -space-x-1">
-                        <Circle className="h-5 w-5 text-blue-500" />
-                        <Circle className="h-5 w-5 text-emerald-500" />
+                {pools.map((pool) => (
+                  <TableRow key={pool.id} className="hover:bg-gray-50">
+                    <TableCell className="font-medium">
+                      <div
+                        className="flex items-center gap-2"
+                        onClick={() => setSelectedPool(pool)}
+                      >
+                        <div className="flex -space-x-1">
+                          <img
+                            src={pool.token0.image}
+                            alt={pool.token0.name}
+                            className="w-5 h-5 rounded-full"
+                          />
+                          <img
+                            src={pool.token1.image}
+                            alt={pool.token1.name}
+                            className="w-5 h-5 rounded-full"
+                          />
+                        </div>
+                        {`${pool.token0.symbol}/${pool.token1.symbol}`}
                       </div>
-                      
-                        TON/USDT
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right">$42.66M</TableCell>
-                  <TableCell className="text-right hidden md:table-cell">
-                    $8.97M
-                  </TableCell>
-                  <TableCell className="text-right hidden md:table-cell">
-                    $8.97K
-                  </TableCell>
-                  <TableCell className="text-right text-green-600">
-                    24.96%
-                  </TableCell>
-                </TableRow>
-                <TableRow className="hover:bg-gray-50">
-                  <TableCell className="font-medium">
-                    <div className="flex items-center gap-2">
-                      <div className="flex -space-x-1">
-                        <Circle className="h-5 w-5 text-purple-500" />
-                        <Circle className="h-5 w-5 text-emerald-500" />
-                      </div>
-                      
-                        tsTON/USDT
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right">$20.21M</TableCell>
-                  <TableCell className="text-right hidden md:table-cell">
-                    $1M
-                  </TableCell>
-                  <TableCell className="text-right hidden md:table-cell">
-                    $2.5K
-                  </TableCell>
-                  <TableCell className="text-right text-green-600">
-                    23.01%
-                  </TableCell>
-                </TableRow>
-                {/* Additional rows would follow the same pattern */}
+                    </TableCell>
+                    <TableCell className="text-right">{pool.tvl}</TableCell>
+                    <TableCell className="text-right hidden md:table-cell">
+                      {pool.volume}
+                    </TableCell>
+                    <TableCell className="text-right hidden md:table-cell">
+                      {pool.fees}
+                    </TableCell>
+                    <TableCell className="text-right text-green-600">
+                      {pool.apr}
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </div>
@@ -141,6 +136,7 @@ export default function Pools() {
           </div>
         </div>
       </div>
+      
     </div>
   );
 }

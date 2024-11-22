@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { CounterContract } from "../contracts/CounterContract";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
-import { Address, fromNano, OpenedContract } from "ton-core";
-import { toNano } from "ton-core";
+
 import { useTonConnect } from "./useTonConnect";
+import { Address, fromNano, OpenedContract, toNano } from "@ton/core";
 
 
 export function useCounterContract() {

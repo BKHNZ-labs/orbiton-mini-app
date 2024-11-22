@@ -8,21 +8,22 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Token } from "@/dtos";
+import { Token } from "@/interfaces";
 import useTokenStore from "@/store/tokenStore";
 
 interface TokenSelectorProps {
   children: ReactNode;
+  onSetToken: (token: Token) => void,
 }
 
-export default function TokenSelector({ children }: TokenSelectorProps) {
-  const tokens = useTokenStore((state) => state.tokenList);
+export default function TokenSelector({ children, onSetToken }: TokenSelectorProps) {
+  const tokens = useTokenStore((state) => state.tokenList) as Token[];
 
   const [selectedTokens, setSelectedTokens] = useState<Token[]>([
     tokens[0],
     tokens[1],
-    tokens[3],
   ]);
+  
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -83,7 +84,9 @@ export default function TokenSelector({ children }: TokenSelectorProps) {
                   variant="ghost"
                   size="icon"
                   className="h-4 w-4 p-0"
-                  onClick={() => toggleToken(token)}
+                  onClick={() => {
+                    toggleToken(token)
+                  }}
                 >
                   <X className="h-3 w-3" />
                 </Button>
@@ -96,7 +99,11 @@ export default function TokenSelector({ children }: TokenSelectorProps) {
             <button
               key={token.id}
               className="flex w-full items-center justify-between rounded-lg p-2 hover:bg-muted"
-              onClick={() => toggleToken(token)}
+              onClick={() => {
+                onSetToken(token)
+                setIsOpen(false)
+                toggleToken(token)
+              }}
             >
               <div className="flex items-center gap-3">
                 <img
@@ -112,9 +119,9 @@ export default function TokenSelector({ children }: TokenSelectorProps) {
                 </div>
               </div>
               <div className="text-right">
-                <div>0</div>
+                <div>{token.balance ? (Number(token.balance) / 10 ** token.decimals) : 0}</div>
                 <div className="text-sm text-muted-foreground">
-                  $0
+                  ${token.value}
                 </div>
               </div>
             </button>

@@ -20,8 +20,15 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import TokenSelector from "../TokenSelector";
+import { Token } from "@/interfaces";
+import useTokenStore from "@/store/tokenStore";
 
 export default function Swap() {
+  const tokens = useTokenStore((state) => state.tokenList);
+
+  const [token0, setToken0] = useState<Token>(tokens[0]);
+  const [token1, setToken1] = useState<Token>(tokens[1]);
+
   const [amount1, setAmount1] = useState("");
   const [amount2, setAmount2] = useState("");
 
@@ -66,12 +73,17 @@ export default function Swap() {
                       variant="outline"
                       className="text-gray-800 hover:bg-gray-100 gap-2"
                     >
-                      <Box className="h-5 w-5 text-amber-500" />
-                      DUST
+                      <img
+                        src={token0.image}
+                        alt={token0.name}
+                        className="w-12 h-12 rounded-full border-2 border-white"
+                      />
+                      {token0.symbol}
                       <ChevronDown />
                     </Button>
                   </div>
                 }
+                onSetToken={setToken0}
               />
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">${amount1 ? "0" : "0"}</span>
@@ -106,12 +118,17 @@ export default function Swap() {
                       variant="outline"
                       className="text-gray-800 hover:bg-gray-100 gap-2"
                     >
-                      <Triangle className="h-5 w-5 text-blue-500 fill-blue-500" />
-                      TON
+                      <img
+                        src={token1.image}
+                        alt={token1.name}
+                        className="w-12 h-12 rounded-full border-2 border-white"
+                      />
+                      {token1.symbol}
                       <ChevronDown />
                     </Button>
                   </div>
                 }
+                onSetToken={setToken1}
               />
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">${amount2 ? "0" : "0"}</span>

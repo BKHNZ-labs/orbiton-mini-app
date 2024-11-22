@@ -1,13 +1,4 @@
-import {
-  Address,
-  beginCell,
-  Cell,
-  Contract,
-  contractAddress,
-  ContractProvider,
-  Sender,
-  SendMode,
-} from "ton-core";
+import { Cell, beginCell, Contract, contractAddress, ContractProvider, Sender, SendMode, Address } from "@ton/core";
 
 export type CounterContractConfig = {
   number: number;
