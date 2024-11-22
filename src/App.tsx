@@ -16,6 +16,7 @@ import { useToast } from "./hooks/use-toast";
 import useTokenStore from "./store/tokenStore";
 import { useTonClient } from "./hooks/useTonClient";
 import { Address } from "@ton/core";
+import { Toaster } from "./components/ui/toaster";
 // import { useCounterContract } from "./hooks/useCounterContract";
 // import { Button } from "@/components/ui/button";
 // import WebApp from "@twa-dev/sdk";
@@ -45,13 +46,13 @@ const router = createBrowserRouter(
     },
   ],
   {
-    // future: {
-    //   v7_relativeSplatPath: true,
-    //   v7_fetcherPersist: true,
-    //   v7_normalizeFormMethod: true,
-    //   v7_partialHydration: true,
-    //   v7_skipActionErrorRevalidation: true,
-    // },
+    future: {
+      v7_relativeSplatPath: true,
+      v7_fetcherPersist: true,
+      v7_normalizeFormMethod: true,
+      v7_partialHydration: true,
+      v7_skipActionErrorRevalidation: true,
+    },
   }
 );
 
@@ -101,9 +102,9 @@ function App() {
 
   return (
     <RouterProvider
-      // future={{
-      //   v7_startTransition: true,
-      // }}
+      future={{
+        v7_startTransition: true,
+      }}
       router={router}
     />
   );
@@ -112,6 +113,7 @@ function App() {
 function TopNavigator() {
   return (
     <>
+      <Toaster />
       {/* Header */}
       <header className="flex justify-center px-4 z-10">
         <div className="container grid grid-cols-[1fr_3fr] items-center px-5 py-5 md:py-10 md:grid-cols-[1fr_auto_1fr]">
