@@ -1,15 +1,8 @@
 import { address, Sender, SenderArguments } from "@ton/core";
 import { useTonConnectUI } from "@tonconnect/ui-react";
-import { useEffect } from "react";
 
 export function useTonConnect(): { sender: Sender; } {
   const [tonConnectUI] = useTonConnectUI();
-
-  useEffect(() => {
-    if (tonConnectUI.connected) {
-      
-    }
-  }, [tonConnectUI]);
 
   return {
     sender: {

@@ -20,7 +20,7 @@ export const useAddPosition = (isCreatedPool: boolean, poolInfo?: Pool) => {
   const tokens = useTokenStore((state) => state.tokenList) as Token[];
 
   const [fee, setFee] = useState(
-    isCreatedPool ? FeeAmount.MEDIUM : (poolInfo as Pool).friendlyFee
+    isCreatedPool ? FeeAmount.MEDIUM : (poolInfo as Pool).fee
   );
 
   const friendlyFee = FEE_MAP.find((f) => f.value === fee)?.friendlyValue;
@@ -72,7 +72,7 @@ export const useAddPosition = (isCreatedPool: boolean, poolInfo?: Pool) => {
       };
     }
 
-    return { reserve0: 0, reserve1: 0 }; // Default when the pool is created
+    return { reserve0: 1, reserve1: 1 }; // Default when the pool is created
   }, [createPoolParams]);
 
   const routerContract = useAsyncInitialize(async () => {
@@ -123,15 +123,6 @@ export const useAddPosition = (isCreatedPool: boolean, poolInfo?: Pool) => {
 
   return {
     createPool: () => {
-      console.log("createPoolParams", {
-        kind: "OpCreatePool",
-        query_id: 0,
-        jetton0_wallet: routerJettonWallet0 as any,
-        jetton1_wallet: routerJettonWallet1 as any,
-        fee: Number(fee),
-        sqrt_price_x96: encodePriceSqrt(BigInt(reserve0), BigInt(reserve1)),
-        tick_spacing: Number(tickSpacing),
-      });
       return routerContract?.sendCreatePool(
         sender,
         {

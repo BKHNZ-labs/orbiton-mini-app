@@ -307,7 +307,7 @@ export default function AddPosition({
                 ? getSubmitMessage() === "Create pool"
                 : getSubmitMessage() === "Add liquidity"
             }
-            onClick={isCreatedPool ? createPool : () => {}}
+            onClick={isCreatedPool ? () => createPool() : () => {}}
           >
             {getSubmitMessage()}
           </Button>

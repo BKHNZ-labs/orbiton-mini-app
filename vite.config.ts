@@ -15,7 +15,7 @@ export default defineConfig({
       include: "**/*.svg?react",
     }),
   ],
-  base: "/orbiton-mini-app/",
+  base: "/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
