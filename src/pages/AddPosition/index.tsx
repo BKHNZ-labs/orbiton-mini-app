@@ -14,6 +14,7 @@ import { Pool } from "@/interfaces/pool";
 import { FeeAmount } from "@/interfaces/fee";
 import TokenSelector from "../TokenSelector";
 import { useAddPosition } from "./hooks/useAddPosition";
+import { useCounterContract } from "@/hooks/useCounterContract";
 
 type AddPositionProps = {
   isCreatedPool: boolean;
@@ -36,6 +37,8 @@ export default function AddPosition({
     createPoolParams,
     friendlyFee,
   } = useAddPosition(isCreatedPool, poolInfo);
+
+  const {sendIncrement} = useCounterContract();
 
   const feeTiers = [
     { value: "0.01", feeType: FeeAmount.VERY_LOW },
@@ -310,6 +313,18 @@ export default function AddPosition({
             onClick={isCreatedPool ? () => createPool() : () => {}}
           >
             {getSubmitMessage()}
+          </Button>
+
+          <Button
+            className="w-full bg-red-100 hover:bg-red-200 text-red-600"
+            disabled={
+              isCreatedPool
+                ? getSubmitMessage() === "Create pool"
+                : getSubmitMessage() === "Add liquidity"
+            }
+            onClick={sendIncrement}
+          >
+            Increment
           </Button>
         </div>
       </DialogContent>
