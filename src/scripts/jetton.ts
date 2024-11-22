@@ -1,5 +1,5 @@
 import { Address, TonClient } from "@ton/ton";
-import { JettonMinterWrapper } from "orbiton-contracts";
+import { JettonMinterWrapper } from "orbiton-contracts-sdk";
 
 export const getJettonBalance = async (
   client: TonClient,

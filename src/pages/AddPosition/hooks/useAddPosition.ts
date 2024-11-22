@@ -6,7 +6,7 @@ import {
   encodePriceSqrt,
   JettonMinterWrapper,
   RouterWrapper,
-} from "orbiton-contracts";
+} from "orbiton-contracts-sdk";
 import { Address, OpenedContract, toNano } from "@ton/core";
 import { FEE_MAP, ROUTER_ADDRESS } from "@/constants";
 import { Token } from "@/interfaces";

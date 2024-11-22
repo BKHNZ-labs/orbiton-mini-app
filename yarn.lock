@@ -2784,10 +2784,10 @@ optionator@^0.9.3:
     type-check "^0.4.0"
     word-wrap "^1.2.5"
 
-orbiton-contracts@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/orbiton-contracts/-/orbiton-contracts-0.0.6.tgz#37c6a9b25ae70c55964b78996552fa601ff5a9da"
-  integrity sha512-hDYI24TdtdgIG7poidpX/Yh07wmxRB57J0mp8eaE2PXpsqKcCkaTcK2SQTxGdfbX+/FtnLlZaIF5t33zbpFhmQ==
+orbiton-contracts-sdk@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/orbiton-contracts-sdk/-/orbiton-contracts-sdk-0.0.7.tgz#fdf7ba5fe8bb8de26926602a1d264309ea6831b2"
+  integrity sha512-AlQmk0p7XBHJpbD0ufv4wKL59YTR+ftI/gaa0W4Xrg7RebDzQ9LVL+mGpgh+e9b/MfzEwGd0dmHfBVHOo2tHHQ==
   dependencies:
     bignumber.js "^9.1.2"
     decimal.js "^10.4.3"
