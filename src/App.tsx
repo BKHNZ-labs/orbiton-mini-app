@@ -173,7 +173,7 @@ function TopNavigator() {
               {ROUTES.map(({ path, label, isIndex, icon: Icon }) => (
                 <NavigationMenuItem key={path}>
                   <NavLink
-                    to={`/orbiton-mini-app/${isIndex ? "" : path}`}
+                    to={`/${isIndex ? "" : path}`}
                     end={isIndex}
                     className={({ isActive }) =>
                       cn(
