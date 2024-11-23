@@ -14,22 +14,22 @@ import { Pool } from "@/interfaces/pool";
 import useTokenStore from "@/store/tokenStore";
 import { FeeAmount } from "@/interfaces/fee";
 
-export const useAddPosition = (isCreatedPool: boolean, poolInfo?: Pool) => {
+export const useAddPosition = (isCreatePool: boolean, poolInfo?: Pool) => {
   const client = useTonClient();
   const { sender } = useTonConnect();
   const tokens = useTokenStore((state) => state.tokenList) as Token[];
 
   const [fee, setFee] = useState(
-    isCreatedPool ? FeeAmount.MEDIUM : (poolInfo as Pool).fee
+    isCreatePool ? FeeAmount.MEDIUM : (poolInfo as Pool).fee
   );
 
   const friendlyFee = FEE_MAP.find((f) => f.value === fee)?.friendlyValue;
 
   const [token0, setToken0] = useState(
-    isCreatedPool ? tokens[0] : (poolInfo as Pool).token0
+    isCreatePool ? tokens[0] : (poolInfo as Pool).token0
   );
   const [token1, setToken1] = useState(
-    isCreatedPool ? tokens[1] : (poolInfo as Pool).token1
+    isCreatePool ? tokens[1] : (poolInfo as Pool).token1
   );
 
   const [routerJettonWallet0, setRouterJettonWallet0] = useState<Address>();
@@ -48,7 +48,7 @@ export const useAddPosition = (isCreatedPool: boolean, poolInfo?: Pool) => {
   });
 
   const { reserve0, reserve1 } = useMemo(() => {
-    if (isCreatedPool) {
+    if (isCreatePool) {
       const initPrice = Number(createPoolParams.initPrice);
       const toFraction = (decimal: number) => {
         const precision = 1e9;

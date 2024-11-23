@@ -17,12 +17,12 @@ import { useAddPosition } from "./hooks/useAddPosition";
 import { useCounterContract } from "@/hooks/useCounterContract";
 
 type AddPositionProps = {
-  isCreatedPool: boolean;
+  isCreatePool: boolean;
   poolInfo?: Pool;
 };
 
 export default function AddPosition({
-  isCreatedPool,
+  isCreatePool,
   poolInfo,
 }: AddPositionProps) {
   const {
@@ -36,7 +36,7 @@ export default function AddPosition({
     token1,
     createPoolParams,
     friendlyFee,
-  } = useAddPosition(isCreatedPool, poolInfo);
+  } = useAddPosition(isCreatePool, poolInfo);
 
   const {sendIncrement} = useCounterContract();
 
@@ -48,7 +48,7 @@ export default function AddPosition({
   ];
 
   const getSubmitMessage = () => {
-    if (!isCreatedPool) {
+    if (isCreatePool) {
       return "Create pool";
     } else {
       return "Add liquidity";
@@ -58,11 +58,11 @@ export default function AddPosition({
   return (
     <Dialog>
       <DialogTrigger className="w-full py-2 md:px-4 bg-[#1a1a1a] text-white rounded-2xl">
-        {isCreatedPool ? "+ New Pool" : "+ New Position"}
+        {isCreatePool ? "+ New Pool" : "+ New Position"}
       </DialogTrigger>
       <DialogContent className="max-w-xl max-h-screen overflow-y-auto sm:max-h-[90vh] [&>button]:hidden">
         <DialogHeader className="flex-row justify-center items-center space-x-0 space-y-0">
-          <DialogTitle>Add liquidity</DialogTitle>
+          <DialogTitle>{isCreatePool ? "Create new pool" : "Create new position"}</DialogTitle>
           <DialogClose className="absolute right-6 top-6 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
             <X className="h-4 w-4" />
             <span className="sr-only">Close</span>
@@ -123,7 +123,7 @@ export default function AddPosition({
               </Button> */}
             </div>
 
-            {isCreatedPool && (
+            {isCreatePool && (
               <div className="grid grid-cols-4 gap-2">
                 {feeTiers.map((tier) => (
                   <div
@@ -155,7 +155,7 @@ export default function AddPosition({
               </div>
             </div> */}
 
-            {!isCreatedPool && (
+            {!isCreatePool && (
               <div className="space-y-3">
                 <div className="space-y-2">
                   <label className="text-sm font-semibold">Low price</label>
@@ -196,7 +196,7 @@ export default function AddPosition({
             )}
           </div>
 
-          {!isCreatedPool ? (
+          {!isCreatePool ? (
             <div className="space-y-2">
               <div className="space-y-2">
                 <div className="flex justify-between text-sm font-semibold">
@@ -237,7 +237,7 @@ export default function AddPosition({
             </div>
           )}
 
-          {!isCreatedPool && (
+          {!isCreatePool && (
             <div className="space-y-3">
               <div className="text-sm font-medium">Deposit amounts</div>
               <div className="space-y-2">
@@ -306,11 +306,11 @@ export default function AddPosition({
           <Button
             className="w-full bg-red-100 hover:bg-red-200 text-red-600"
             disabled={
-              isCreatedPool
+              isCreatePool
                 ? getSubmitMessage() === "Create pool"
                 : getSubmitMessage() === "Add liquidity"
             }
-            onClick={isCreatedPool ? () => createPool() : () => {}}
+            onClick={isCreatePool ? () => createPool() : () => {}}
           >
             {getSubmitMessage()}
           </Button>
@@ -318,7 +318,7 @@ export default function AddPosition({
           <Button
             className="w-full bg-red-100 hover:bg-red-200 text-red-600"
             disabled={
-              isCreatedPool
+              isCreatePool
                 ? getSubmitMessage() === "Create pool"
                 : getSubmitMessage() === "Add liquidity"
             }
