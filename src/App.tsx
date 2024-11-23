@@ -9,7 +9,6 @@ import { Outlet, RouterProvider } from "react-router";
 import {
   NavLink,
   createBrowserRouter,
-  createHashRouter,
 } from "react-router-dom";
 import { cn } from "./lib/utils";
 import { LoopIcon, OpacityIcon } from "@radix-ui/react-icons";
@@ -21,6 +20,7 @@ import useTokenStore from "./store/tokenStore";
 import { useTonClient } from "./hooks/useTonClient";
 import { Address } from "@ton/core";
 import { Toaster } from "./components/ui/toaster";
+import { useTonConnect } from "./hooks/useTonConnect";
 // import { useCounterContract } from "./hooks/useCounterContract";
 // import { Button } from "@/components/ui/button";
 // import WebApp from "@twa-dev/sdk";

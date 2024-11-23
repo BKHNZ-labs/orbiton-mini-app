@@ -49,7 +49,7 @@ export function useCounterContract() {
     value: contractData?.counter_value,
     address: counterContract?.address.toString(),
     sendIncrement: () => {
-      console.log({ sender: sender.address});
+      console.log(sender.address);
       return counterContract?.sendIncrement(sender, toNano(0.05), 3);
     },
     contract_balance: contractData?.contract_balance,
