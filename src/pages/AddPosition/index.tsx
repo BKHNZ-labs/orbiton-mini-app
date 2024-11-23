@@ -3,7 +3,6 @@ import { ChevronDown, Minus, MoveLeft, Plus, X } from 'lucide-react';
 import { FeeAmount } from "@/interfaces/fee";
 import TokenSelector from "../TokenSelector";
 import { useAddPosition } from "./hooks/useAddPosition";
-import { useCounterContract } from "@/hooks/useCounterContract";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -26,8 +25,6 @@ export default function AddPositionPage() {
         createPoolParams,
         friendlyFee,
     } = useAddPosition(isCreatePool, poolInfo);
-
-    const { sendIncrement } = useCounterContract();
 
     const feeTiers = [
         { value: "0.01", feeType: FeeAmount.VERY_LOW },

@@ -25,6 +25,8 @@
     "@ton/ton": "^15.1.0",
     "@tonconnect/ui-react": "^2.0.9",
     "@twa-dev/sdk": "^7.10.1",
+    "@uniswap/sdk-core": "^6.0.0",
+    "@uniswap/v3-sdk": "^3.19.0",
     "axios": "^1.7.7",
     "axios-retry": "^4.5.0",
     "bignumber.js": "^9.1.2",

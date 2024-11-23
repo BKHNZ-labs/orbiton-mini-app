@@ -13,7 +13,7 @@ export function useTonConnect(): { sender: Sender } {
       console.log(tonConnectUI);
       if (!tonConnectUI) return;
       if ((await tonConnectUI.connectionRestored) || tonConnectUI.connected) {
-        console.log("go here"); 
+        console.log("go here");
         if (tonConnectUI.account) {
           setAddress(Address.parse(tonConnectUI.account?.address));
         }
@@ -32,6 +32,7 @@ export function useTonConnect(): { sender: Sender } {
                 amount: args.value.toString(),
                 payload: args.body?.toBoc().toString("base64"),
               },
+              
             ],
             validUntil: Date.now() + 5 * 60 * 1000,
           });
