@@ -7,6 +7,7 @@ import { useCounterContract } from "@/hooks/useCounterContract";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Card } from '@/components/ui/card';
 
 export default function AddPositionPage() {
     const navigate = useNavigate();
@@ -44,55 +45,49 @@ export default function AddPositionPage() {
     };
 
     return (
-        <div className="max-w-xl mx-auto p-6" >
-            <Button onClick={() => navigate(-1)} className="mb-4" >
-                <div className="flex items-center gap-2" >
-                    <MoveLeft />
-                    <span>Back</span>
-                </div>
+        <div className="max-w-xl mx-auto p-4 sm:p-6">
+            <Button onClick={() => navigate(-1)} className="mb-4 px-2 py-1 h-auto" variant="ghost">
+                <MoveLeft className="h-4 w-4 mr-2" />
+                <span className="text-sm">Back</span>
             </Button>
-            < h1 className="text-2xl font-bold mb-6" > {isCreatePool ? "Create new pool" : "Add Liquidity"} </h1>
+            <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">{isCreatePool ? "Create new pool" : "Add Liquidity"}</h1>
 
-            <div className="space-y-6">
+            <Card className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                 <div className="space-y-3">
                     <div className="text-sm font-medium">Select pair</div>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
                         <TokenSelector
                             children={
-                                <div className="flex justify-between mb-2">
-                                    <Button
-                                        variant="outline"
-                                        className="text-gray-800 hover:bg-gray-100 gap-2 w-full"
-                                    >
-                                        <img
-                                            src={token0.image}
-                                            alt={token0.name}
-                                            className="w-12 h-12 rounded-full border-2 border-white"
-                                        />
-                                        {token0.symbol}
-                                        <ChevronDown />
-                                    </Button>
-                                </div>
+                                <Button
+                                    variant="outline"
+                                    className="w-full h-auto py-2 px-3 text-gray-800 hover:bg-gray-100"
+                                >
+                                    <img
+                                        src={token0.image}
+                                        alt={token0.name}
+                                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-white mr-2"
+                                    />
+                                    <span className="text-sm sm:text-base">{token0.symbol}</span>
+                                    <ChevronDown className="ml-auto h-4 w-4" />
+                                </Button>
                             }
                             onSetToken={setToken0}
                         />
 
                         <TokenSelector
                             children={
-                                <div className="flex justify-between mb-2">
-                                    <Button
-                                        variant="outline"
-                                        className="text-gray-800 hover:bg-gray-100 gap-2 w-full"
-                                    >
-                                        <img
-                                            src={token1.image}
-                                            alt={token1.name}
-                                            className="w-12 h-12 rounded-full border-2 border-white"
-                                        />
-                                        {token1.symbol}
-                                        <ChevronDown />
-                                    </Button>
-                                </div>
+                                <Button
+                                    variant="outline"
+                                    className="w-full h-auto py-2 px-3 text-gray-800 hover:bg-gray-100"
+                                >
+                                    <img
+                                        src={token1.image}
+                                        alt={token1.name}
+                                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-white mr-2"
+                                    />
+                                    <span className="text-sm sm:text-base">{token1.symbol}</span>
+                                    <ChevronDown className="ml-auto h-4 w-4" />
+                                </Button>
                             }
                             onSetToken={setToken1}
                         />
@@ -105,17 +100,18 @@ export default function AddPositionPage() {
                     </div>
 
                     {isCreatePool && (
-                        <div className="grid grid-cols-4 gap-2">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                             {feeTiers.map((tier) => (
                                 <div
                                     key={tier.value}
-                                    className={`relative rounded-lg border ${fee === tier.feeType
-                                        ? "border-purple-600 bg-purple-50"
-                                        : "border-gray-200 bg-gray-50"
-                                        } p-3 cursor-pointer`}
+                                    className={`relative rounded-lg border ${
+                                        fee === tier.feeType
+                                            ? "border-purple-600 bg-purple-50"
+                                            : "border-gray-200 bg-gray-50"
+                                    } p-2 sm:p-3 cursor-pointer text-center`}
                                     onClick={() => setFee(tier.feeType)}
                                 >
-                                    <div className="text-sm font-medium text-center">
+                                    <div className="text-xs sm:text-sm font-medium">
                                         {tier.value}%
                                     </div>
                                 </div>
@@ -124,64 +120,60 @@ export default function AddPositionPage() {
                     )}
                 </div>
 
-                <div className="space-y-3">
-                    {!isCreatePool && (
-                        <div className="space-y-3">
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold">Low price</label>
-                                <div className="relative">
-                                    <Input className="bg-gray-50" defaultValue="2092.3024" />
-                                    <div className="absolute right-0 top-0 h-full flex gap-1 pr-2">
-                                        <Button variant="ghost" size="icon" className="h-full">
-                                            <Minus className="h-4 w-4" />
-                                        </Button>
-                                        <Button variant="ghost" size="icon" className="h-full">
-                                            <Plus className="h-4 w-4" />
-                                        </Button>
+                {!isCreatePool && (
+                    <div className="space-y-3">
+                        <div className="space-y-2">
+                            <label className="text-sm font-semibold">Price Range</label>
+                            <div className="grid grid-cols-2 gap-2">
+                                <div className="space-y-1">
+                                    <div className="text-xs text-gray-500">Low price</div>
+                                    <div className="relative">
+                                        <Input className="bg-gray-50 pr-12 text-sm" defaultValue="2092.3024" />
+                                        <div className="absolute right-1 top-1/2 -translate-y-1/2 flex">
+                                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                                                <Minus className="h-3 w-3" />
+                                            </Button>
+                                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                                                <Plus className="h-3 w-3" />
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="text-xs text-gray-500">
-                                    {token1.symbol} per {token0.symbol}
+                                <div className="space-y-1">
+                                    <div className="text-xs text-gray-500">High price</div>
+                                    <div className="relative">
+                                        <Input className="bg-gray-50 pr-12 text-sm" defaultValue="5563.4375" />
+                                        <div className="absolute right-1 top-1/2 -translate-y-1/2 flex">
+                                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                                                <Minus className="h-3 w-3" />
+                                            </Button>
+                                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                                                <Plus className="h-3 w-3" />
+                                            </Button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold">High price</label>
-                                <div className="relative">
-                                    <Input className="bg-gray-50" defaultValue="5563.4375" />
-                                    <div className="absolute right-0 top-0 h-full flex gap-1 pr-2">
-                                        <Button variant="ghost" size="icon" className="h-full">
-                                            <Minus className="h-4 w-4" />
-                                        </Button>
-                                        <Button variant="ghost" size="icon" className="h-full">
-                                            <Plus className="h-4 w-4" />
-                                        </Button>
-                                    </div>
-                                </div>
-                                <div className="text-xs text-gray-500">
-                                    {token1.symbol} per {token0.symbol}
-                                </div>
+                            <div className="text-xs text-gray-500">
+                                {token1.symbol} per {token0.symbol}
                             </div>
                         </div>
-                    )}
-                </div>
 
-                {!isCreatePool ? (
-                    <div className="space-y-2">
-                        <div className="space-y-2">
-                            <div className="flex justify-between text-sm font-semibold">
+                        <div className="space-y-1">
+                            <div className="flex justify-between text-sm">
                                 <span>Current Price:</span>
                                 <span>
                                     1.2 {token1.symbol} per {token0.symbol}
                                 </span>
                             </div>
-                            <Input className="bg-gray-50" defaultValue="1.2" />
                         </div>
                     </div>
-                ) : (
+                )}
+
+                {isCreatePool && (
                     <div>
                         <Alert className="bg-purple-50 border-purple-200 mb-2">
-                            <AlertDescription className="text-purple-700">
+                            <AlertDescription className="text-purple-700 text-xs sm:text-sm">
                                 This pool must be initialized before you can add liquidity. To
                                 initialize, select a starting price for the pool. Then, enter
                                 your liquidity price range and deposit amount.
@@ -190,13 +182,13 @@ export default function AddPositionPage() {
 
                         <div className="space-y-2">
                             <Input
-                                className="bg-gray-50"
+                                className="bg-gray-50 text-sm"
                                 value={createPoolParams.initPrice}
                                 onChange={(e) =>
                                     setCreatePoolParams({ initPrice: e.target.value })
                                 }
                             />
-                            <div className="flex justify-between text-sm text-gray-600">
+                            <div className="flex justify-between text-xs sm:text-sm text-gray-600">
                                 <span>Starting {token1.symbol} Price:</span>
                                 <span>
                                     {createPoolParams.initPrice} {token1.symbol} per{" "}
@@ -210,87 +202,41 @@ export default function AddPositionPage() {
                 {!isCreatePool && (
                     <div className="space-y-3">
                         <div className="text-sm font-medium">Deposit amounts</div>
-                        <div className="space-y-2">
-                            <div className="relative">
-                                <Input className="bg-gray-50" defaultValue="1" />
-                                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                                    <div className="flex items-center gap-1">
+                        {[token0, token1].map((token, index) => (
+                            <div key={token.symbol} className="space-y-1">
+                                <div className="relative">
+                                    <Input className="bg-gray-50 pr-20 text-sm" defaultValue={index === 0 ? "1" : "2415.7"} />
+                                    <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
                                         <img
-                                            src={token1.image}
-                                            alt={token1.name}
-                                            className="w-12 h-12 rounded-full border-2 border-white"
+                                            src={token.image}
+                                            alt={token.name}
+                                            className="w-5 h-5 rounded-full border border-white mr-1"
                                         />
-                                        <span className="font-medium">{token1.symbol}</span>
+                                        <span className="text-xs font-medium">{token.symbol}</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="flex justify-between text-sm">
-                                {/* <span className="text-gray-500">$3,171.38</span> */}
-                                <div className="flex items-center gap-2">
+                                <div className="flex justify-between text-xs">
                                     <span className="text-gray-500">
-                                        Balance:{" "}
-                                        {token1.balance
-                                            ? Number(token1.balance) / 10 ** token1.decimals
-                                            : 0}
+                                        Balance: {token.balance ? Number(token.balance) / 10 ** token.decimals : 0}
                                     </span>
                                 </div>
                             </div>
-                        </div>
-
-                        <div className="space-y-2">
-                            <div className="relative">
-                                <Input className="bg-gray-50" defaultValue="2415.7" />
-                                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                                    <div className="flex items-center gap-1">
-                                        <img
-                                            src={token1.image}
-                                            alt={token1.name}
-                                            className="w-12 h-12 rounded-full border-2 border-white"
-                                        />
-                                        <span className="font-medium">{token1.symbol}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex justify-between text-sm">
-                                {/* <span className="text-gray-500">$2,416.71</span> */}
-                                <div className="flex items-center gap-2">
-                                    <span className="text-gray-500">
-                                        Balance:{" "}
-                                        {token1.balance
-                                            ? Number(token1.balance) / 10 ** token1.decimals
-                                            : 0}
-                                    </span>
-
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 )}
 
                 <Button
-                    className="w-full bg-red-100 hover:bg-red-200 text-red-600"
+                    className="w-full"
                     disabled={
                         isCreatePool
                             ? !(getSubmitMessage() === "Create pool")
                             : !(getSubmitMessage() === "Add liquidity")
                     }
-                    onClick={isCreatePool ? () => createPool() : () => { }}
+                    onClick={isCreatePool ? () => createPool() : () => {}}
                 >
                     {getSubmitMessage()}
                 </Button>
-
-                <Button
-                    className="w-full bg-red-100 hover:bg-red-200 text-red-600"
-                    disabled={
-                        isCreatePool
-                            ? !(getSubmitMessage() === "Create pool")
-                            : !(getSubmitMessage() === "Add liquidity")
-                    }
-                    onClick={sendIncrement}
-                >
-                    Increment
-                </Button>
-            </div>
+            </Card>
         </div>
     );
 }

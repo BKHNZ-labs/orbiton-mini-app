@@ -34,24 +34,24 @@ export default function Swap() {
   const [amount2, setAmount2] = useState("");
 
   return (
-    <div className="min-h-fit bg-gray-100 p-4 flex justify-center">
-      <Card className="w-full max-w-md bg-white shadow-lg">
+    <div className="min-h-fit bg-background p-4 flex justify-center">
+      <Card className="w-full max-w-md bg-card shadow-lg">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-3xl font-semibold text-gray-800">
+          <CardTitle className="text-3xl font-semibold text-primary">
             Swap
           </CardTitle>
           <div className="flex gap-2">
             <Button
               variant="ghost"
               size="icon"
-              className="text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+              className="text-primary hover:text-primary-foreground hover:bg-primary/90"
             >
               <RefreshCcw className="h-5 w-5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+              className="text-primary hover:text-primary-foreground hover:bg-primary/90"
             >
               <Settings className="h-5 w-5" />
             </Button>
@@ -59,33 +59,33 @@ export default function Swap() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-4">
-            <div className="rounded-lg bg-gray-50 p-4 border border-gray-200">
-              <TokenSelector
-                children={
-                  <div className="flex justify-between mb-2">
-                    <Input
-                      type="number"
-                      value={amount1}
-                      onChange={(e) => setAmount1(e.target.value)}
-                      className="border-0 bg-transparent text-2xl text-gray-800 placeholder:text-gray-400 focus-visible:ring-0 p-0 h-auto"
-                      placeholder="0"
-                    />
+            <div className="rounded-lg bg-muted p-4 border border-border">
+              <div className="flex justify-between mb-2">
+                <Input
+                  type="number"
+                  value={amount1}
+                  onChange={(e) => setAmount1(e.target.value)}
+                  className="border-0 bg-transparent text-2xl text-primary placeholder:text-muted-foreground focus-visible:ring-0 p-0 h-auto"
+                  placeholder="0"
+                />
+                <TokenSelector
+                  children={
                     <Button
                       variant="outline"
-                      className="text-gray-800 hover:bg-gray-100 gap-2"
+                      className="text-primary hover:bg-accent gap-2"
                     >
                       <img
                         src={token0.image}
                         alt={token0.name}
-                        className="w-12 h-12 rounded-full border-2 border-white"
+                        className="w-12 h-12 rounded-full border-2 border-white -translate-x-2"
                       />
                       {token0.symbol}
                       <ChevronDown />
                     </Button>
-                  </div>
-                }
-                onSetToken={setToken0}
-              />
+                  }
+                  onSetToken={setToken0}
+                />
+              </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">${amount1 ? "0" : "0"}</span>
                 <span className="text-gray-500">
@@ -98,39 +98,40 @@ export default function Swap() {
               <Button
                 variant="outline"
                 size="icon"
-                className="h-8 w-8 rounded-full bg-white border-gray-200 hover:bg-gray-50"
+                className="h-8 w-8 rounded-full bg-background border-border hover:bg-accent"
               >
-                <ArrowDownUp className="h-4 w-4 text-gray-500" />
+                <ArrowDownUp className="h-4 w-4 text-primary" />
               </Button>
             </div>
 
-            <div className="rounded-lg bg-gray-50 p-4 border border-gray-200">
-              <TokenSelector
-                children={
-                  <div className="flex justify-between mb-2">
-                    <Input
-                      type="number"
-                      value={amount2}
-                      onChange={(e) => setAmount2(e.target.value)}
-                      className="border-0 bg-transparent text-2xl text-gray-800 placeholder:text-gray-400 focus-visible:ring-0 p-0 h-auto"
-                      placeholder="0"
-                    />
+            <div className="rounded-lg bg-muted p-4 border border-border">
+              <div className="flex justify-between mb-2">
+                <Input
+                  type="number"
+                  value={amount1}
+                  onChange={(e) => setAmount1(e.target.value)}
+                  className="border-0 bg-transparent text-2xl text-primary placeholder:text-muted-foreground focus-visible:ring-0 p-0 h-auto"
+                  placeholder="0"
+
+                />
+                <TokenSelector
+                  children={
                     <Button
                       variant="outline"
-                      className="text-gray-800 hover:bg-gray-100 gap-2"
+                      className="text-primary hover:bg-accent gap-2"
                     >
                       <img
                         src={token1.image}
                         alt={token1.name}
-                        className="w-12 h-12 rounded-full border-2 border-white"
+                        className="w-12 h-12 rounded-full border-2 border-white -translate-x-2"
                       />
                       {token1.symbol}
                       <ChevronDown />
                     </Button>
-                  </div>
-                }
-                onSetToken={setToken1}
-              />
+                  }
+                  onSetToken={setToken1}
+                />
+              </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">${amount2 ? "0" : "0"}</span>
                 <span className="text-gray-500">
@@ -142,7 +143,7 @@ export default function Swap() {
         </CardContent>
         <CardFooter>
           <Button
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-lg"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 text-lg"
             size="lg"
             onClick={() => sendIncrement()}
           >

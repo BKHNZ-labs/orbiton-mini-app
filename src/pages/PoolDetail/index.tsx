@@ -1,86 +1,89 @@
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { Card } from "@/components/ui/card";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Pool } from "@/interfaces/pool";
-import { DialogTitle } from "@radix-ui/react-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import AddPosition from "../AddPosition/components/AddPosition";
+import { Pool } from "@/interfaces/pool";
+import pools from "@/assets/pools.json";
+import AddPosition from '../AddPosition/components/AddPosition';
+import { Button } from "@/components/ui/button";
 
-type PoolDetailProps = {
-  pool: Pool;
-  isOpen: boolean;
-  onClose: () => void;
-};
+export default function PoolDetail() {
+  const { poolId } = useParams<{ poolId: string }>();
+  const navigate = useNavigate();
 
-export default function PoolDetail({ pool, isOpen, onClose }: PoolDetailProps) {
+  const pool: Pool = pools.find((pool) => pool.id === Number(poolId)) as Pool;
+
+  const onClose = () => {
+    navigate(-1);
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl p-0 bg-white text-gray-900 overflow-hidden flex flex-col h-[100dvh]">
-        <div className="sticky top-0 z-10 bg-white border-b border-gray-200">
-          <DialogTitle className="sr-only">Pool Details</DialogTitle>
-          <div className="flex items-center justify-between p-4">
-            <button
+    <div className="bg-background text-foreground min-h-screen flex flex-col">
+      <div className="sticky top-0 z-10 bg-background border-b border-border shadow-sm">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between py-3 sm:py-4">
+            <Button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 transition-colors"
+              variant="ghost"
+              className="text-muted-foreground hover:text-primary transition-colors"
             >
-              <ArrowLeft className="h-6 w-6" />
-              <span className="sr-only">Close</span>
-            </button>
-            <div className="flex items-center space-x-2">
+              <ArrowLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+              <span className="sr-only">Go back</span>
+            </Button>
+            <div className="flex items-center space-x-1 sm:space-x-2">
               <img
                 src={pool.token0.image}
                 alt={pool.token0.name}
-                className="w-8 h-8 rounded-full border-2 border-white"
+                className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-background shadow-sm"
               />
               <img
                 src={pool.token1.image}
                 alt={pool.token1.name}
-                className="w-8 h-8 rounded-full border-2 border-white"
+                className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-background shadow-sm"
               />
             </div>
-            <div className="w-6" /> {/* Spacer for alignment */}
+            <div className="w-5 sm:w-6" aria-hidden="true" />
           </div>
         </div>
+      </div>
 
-        <ScrollArea className="flex-grow">
-          <div className="p-4 space-y-6">
-            <div className="text-center space-y-2">
-              <h1 className="text-2xl font-bold">
-                {pool.token0.symbol}/{pool.token1.symbol}
-              </h1>
-              <p className="text-gray-600">Trade Fee: {pool.friendlyFee}</p>
-              <p className="text-gray-600">
-                Inspect pair details and manage your liquidity
-              </p>
-            </div>
+      <ScrollArea className="flex-grow">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+          <div className="text-center space-y-1 sm:space-y-2 mb-4 sm:mb-8">
+            <h1 className="text-xl sm:text-3xl font-bold text-primary">
+              {pool.token0.symbol}/{pool.token1.symbol}
+            </h1>
+            <p className="text-sm sm:text-lg text-muted-foreground">Trade Fee: <span className="font-semibold text-primary">{pool.friendlyFee}</span></p>
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              Inspect pair details and manage your liquidity
+            </p>
+          </div>
 
-            <div className="space-y-6">
-              <Card className="bg-gray-50 border-gray-200 p-6 space-y-6">
+          <div className="space-y-4 sm:space-y-8">
+            <Card className="bg-card text-card-foreground shadow-md rounded-lg overflow-hidden">
+              <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                 <div>
-                  <h2 className="text-lg font-semibold mb-4">
+                  <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4 text-primary">
                     Pool Composition
                   </h2>
-                  <div className="space-y-4">
+                  <div className="grid gap-3 sm:gap-6">
                     {[pool.token0, pool.token1].map((token, index) => (
-                      <div key={token.symbol}>
-                        <div className="flex justify-between items-center text-gray-600">
-                          <span>{token.name}</span>
-                          <a
-                            href="#"
-                            className="flex items-center hover:text-gray-900"
+                      <div key={token.symbol} className="bg-accent/10 p-3 sm:p-4 rounded-lg">
+                        <div className="flex justify-between items-center text-muted-foreground mb-1 sm:mb-2">
+                          <span className="text-sm sm:text-base font-medium">{token.name}</span>
+                          <Button
+                            variant="link"
+                            className="flex items-center text-primary hover:text-primary/80 transition-colors text-xs sm:text-sm p-0 h-auto"
                           >
                             Explorer
-                            <ExternalLink className="h-4 w-4 ml-1" />
-                          </a>
+                            <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 ml-1" />
+                          </Button>
                         </div>
-                        <div className="flex flex-col justify-between items-baseline">
-                          <span className="text-2xl font-bold">
-                            {index === 0
-                              ? pool.token0Amount
-                              : pool.token1Amount}{" "}
-                            {token.symbol}
+                        <div className="flex justify-between items-baseline">
+                          <span className="text-base sm:text-2xl font-bold text-primary">
+                            {index === 0 ? pool.token0Amount : pool.token1Amount} {token.symbol}
                           </span>
-                          <span className="text-gray-600">
+                          <span className="text-xs sm:text-sm text-muted-foreground">
                             $21.3{index + 1}M
                           </span>
                         </div>
@@ -89,40 +92,34 @@ export default function PoolDetail({ pool, isOpen, onClose }: PoolDetailProps) {
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <div>
-                    <span className="text-gray-600">Liquidity</span>
-                    <div className="text-2xl font-bold">{pool.tvl}</div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <span className="text-gray-600">Total Volume</span>
-                      <div className="text-2xl font-bold">{pool.volume}</div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6">
+                  {[
+                    { label: "Liquidity", value: pool.tvl },
+                    { label: "Total Volume", value: pool.volume },
+                    { label: "Total Fee", value: pool.fees },
+                    { label: "APR", value: pool.apr, highlight: true },
+                  ].map((item) => (
+                    <div key={item.label}>
+                      <span className="text-xs sm:text-sm text-muted-foreground block mb-1">{item.label}</span>
+                      <div className={`text-sm sm:text-2xl font-bold ${item.highlight ? 'text-green-600' : 'text-primary'}`}>
+                        {item.value}
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-gray-600">Total Fee</span>
-                      <div className="text-2xl font-bold">{pool.fees}</div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <span className="text-gray-600">APR</span>
-                    <div className="text-2xl font-bold text-green-600">
-                      {pool.apr}
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              </Card>
+              </div>
+            </Card>
 
-              <Card className="bg-gray-50 border-gray-200 p-6">
-                <h2 className="text-lg font-semibold mb-4">My Position</h2>
+            <Card className="bg-card text-card-foreground shadow-md rounded-lg overflow-hidden">
+              <div className="p-4 sm:p-6">
+                <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4 text-primary">My Position</h2>
                 <AddPosition isCreatePool={false} poolInfo={pool} />
-              </Card>
-            </div>
+              </div>
+            </Card>
           </div>
-        </ScrollArea>
-      </DialogContent>
-    </Dialog>
+        </div>
+      </ScrollArea>
+    </div>
   );
 }
+

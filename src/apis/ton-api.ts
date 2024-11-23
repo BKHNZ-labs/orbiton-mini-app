@@ -1,4 +1,4 @@
-import axios from "@/apis";
+import { tonInstance as axios } from "@/apis";
 import { Token } from "@/interfaces";
 import { Address } from "@ton/core";
 

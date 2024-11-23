@@ -20,13 +20,9 @@ import useTokenStore from "./store/tokenStore";
 import { useTonClient } from "./hooks/useTonClient";
 import { Address } from "@ton/core";
 import { Toaster } from "./components/ui/toaster";
-import { useTonConnect } from "./hooks/useTonConnect";
 import AddPositionPage from "./pages/AddPosition";
-// import { useCounterContract } from "./hooks/useCounterContract";
-// import { Button } from "@/components/ui/button";
-// import WebApp from "@twa-dev/sdk";
-// import { useCounterContract } from "./hooks/useCounterContract";
-// import { useTonConnect } from "./hooks/useTonConnect";
+import PoolDetail from "./pages/PoolDetail";
+import usePoolStore from "./store/poolStore";
 
 const ROUTES = [
   { path: "swap", label: "Swap", isIndex: true, icon: LoopIcon },
@@ -41,7 +37,8 @@ const router = createBrowserRouter(
       children: [
         { path: "/", index: true, element: <Swap /> },
         { path: "/pools", element: <Pools /> },
-        { path: "/add-position", element: <AddPositionPage /> }
+        { path: "/add-position", element: <AddPositionPage /> },
+        { path: "/pool/:poolId", element: <PoolDetail /> }
       ],
     },
   ],
@@ -62,7 +59,14 @@ function App() {
 
   const client = useTonClient();
   const { toast } = useToast();
-  const { setBalance, fetchBalance } = useTokenStore();
+  const { setBalance, fetchBalance, tokenList } = useTokenStore();
+  const { fetchPoolList, poolList } = usePoolStore();
+
+  useEffect(() => {
+    if (tokenList.length > 0 && poolList.length === 0) {
+      fetchPoolList(tokenList);
+    }
+  }, [tokenList, poolList])
 
   useEffect(() => {
     if (userFriendlyAddress) {
@@ -143,8 +147,8 @@ function TopNavigator() {
                       // end={isIndex} // Ensures "Swap" (index) matches exactly
                       className={({ isActive }) =>
                         cn(
-                          "hover:bg-slate-200 hover:text-blue-800 py-3 px-8 rounded-full",
-                          isActive && "text-blue-800"
+                          "hover:bg-accent hover:text-primary py-3 px-8 rounded-full",
+                          isActive && "text-primary bg-accent"
                         )
                       }
                     >
@@ -180,8 +184,8 @@ function TopNavigator() {
                     // end={isIndex}
                     className={({ isActive }) =>
                       cn(
-                        "hover:text-blue-800 py-3 px-8 rounded-full",
-                        isActive && "text-blue-800 bg-slate-200"
+                        "hover:bg-accent hover:text-primary py-3 px-8 rounded-full",
+                        isActive && "text-primary bg-accent"
                       )
                     }
                   >

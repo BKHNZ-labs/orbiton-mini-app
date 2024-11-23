@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   encodePriceSqrt,
   JettonMinterWrapper,
+  PoolWrapper,
   RouterWrapper,
 } from "orbiton-contracts-sdk";
 import { Address, OpenedContract, toNano } from "@ton/core";
@@ -45,6 +46,18 @@ export const useAddPosition = (isCreatePool: boolean, poolInfo?: Pool) => {
     initPrice: string;
   }>({
     initPrice: "1.0",
+  });
+
+  const [createPositionParams, setCreatePositionParams] = useState<{
+    tokenAmount0: string | null;
+    tokenAmount1: string | null;
+    priceMin: string | null;
+    priceMax: string | null;
+  }>({
+    tokenAmount0: null,
+    tokenAmount1: null,
+    priceMin: null,
+    priceMax: null,
   });
 
   const { reserve0, reserve1 } = useMemo(() => {
@@ -99,11 +112,23 @@ export const useAddPosition = (isCreatePool: boolean, poolInfo?: Pool) => {
     const contract = new JettonMinterWrapper.JettonMinter(
       Address.parse(token1.address!)
     );
-
     return client.open(
       contract
     ) as OpenedContract<JettonMinterWrapper.JettonMinter>;
   }, [client, token1]);
+
+  const poolContract = useAsyncInitialize(async () => {
+    if (!client || !poolInfo) return null;
+    const contract = new PoolWrapper.PoolTest(Address.parse(poolInfo.address));
+    return client.open(contract) as OpenedContract<PoolWrapper.PoolTest>;
+  }, [client, poolInfo]);
+
+  useEffect(() => {
+    async function initPosition() {
+      if (!poolContract) return;
+      const currentTick = await poolContract.getPoolInfo();
+    }
+  }, [client, poolContract]);
 
   useEffect(() => {
     async function getRouterJettonWallets() {
