@@ -15,7 +15,7 @@ export default defineConfig({
       include: "**/*.svg?react",
     }),
   ],
-  base: "/",
+  base: "/swap",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
