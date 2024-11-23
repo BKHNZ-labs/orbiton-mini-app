@@ -28,7 +28,7 @@ import { Toaster } from "./components/ui/toaster";
 // import { useTonConnect } from "./hooks/useTonConnect";
 
 const ROUTES = [
-  { path: "swap", label: "Swap", isIndex: false, icon: LoopIcon },
+  { path: "swap", label: "Swap", isIndex: true, icon: LoopIcon },
   { path: "pools", label: "Pools", isIndex: false, icon: OpacityIcon },
 ];
 
@@ -38,7 +38,7 @@ const router = createBrowserRouter(
       path: "/",
       element: <TopNavigator />,
       children: [
-        { path: "/swap", element: <Swap /> },
+        { path: "/", index: true, element: <Swap /> },
         { path: "/pools", element: <Pools /> },
       ],
     },
@@ -118,7 +118,7 @@ function TopNavigator() {
         <div className="container grid grid-cols-[1fr_3fr] items-center px-5 py-5 md:py-10 md:grid-cols-[1fr_auto_1fr]">
           {/* Logo and Brand */}
           <div className="flex items-center justify-start">
-            <NavLink to="/swap">
+            <NavLink to="/">
               <div className="inline-flex items-center justify-between px-xs md:w-[102px]">
                 <div className="relative">
                   <Logo className="w-20 h-20" />

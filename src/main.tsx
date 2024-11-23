@@ -8,7 +8,12 @@ const manifestUrl =
   "https://raw.githubusercontent.com/BKHNZ-labs/orbiton-mini-app/main/public/manifest.json";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <TonConnectUIProvider manifestUrl={manifestUrl}>
+  <TonConnectUIProvider manifestUrl={manifestUrl} restoreConnection={true} actionsConfiguration={
+    {
+      modals: "all",
+      notifications: "all",
+    }
+  }>
     <App />
   </TonConnectUIProvider>
 );
