@@ -307,8 +307,8 @@ export default function AddPosition({
             className="w-full bg-red-100 hover:bg-red-200 text-red-600"
             disabled={
               isCreatePool
-                ? getSubmitMessage() === "Create pool"
-                : getSubmitMessage() === "Add liquidity"
+                ? !(getSubmitMessage() === "Create pool")
+                : !(getSubmitMessage() === "Add liquidity")
             }
             onClick={isCreatePool ? () => createPool() : () => {}}
           >
@@ -319,8 +319,8 @@ export default function AddPosition({
             className="w-full bg-red-100 hover:bg-red-200 text-red-600"
             disabled={
               isCreatePool
-                ? getSubmitMessage() === "Create pool"
-                : getSubmitMessage() === "Add liquidity"
+                ? !(getSubmitMessage() === "Create pool")
+                : !(getSubmitMessage() === "Add liquidity")
             }
             onClick={sendIncrement}
           >

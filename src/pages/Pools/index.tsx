@@ -59,7 +59,7 @@ export default function Pools() {
               <h2 className="font-medium text-gray-900">Pool list</h2>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
-              <AddPosition isCreatedPool={true} />
+              <AddPosition isCreatePool={true} />
             </div>
           </div>
 
