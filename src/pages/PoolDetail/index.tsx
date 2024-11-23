@@ -3,8 +3,8 @@ import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Pool } from "@/interfaces/pool";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import AddPosition from "../AddPosition";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import AddPosition from "../AddPosition/components/AddPosition";
 
 type PoolDetailProps = {
   pool: Pool;
@@ -117,7 +117,7 @@ export default function PoolDetail({ pool, isOpen, onClose }: PoolDetailProps) {
 
               <Card className="bg-gray-50 border-gray-200 p-6">
                 <h2 className="text-lg font-semibold mb-4">My Position</h2>
-                <AddPosition isCreatedPool={false} poolInfo={pool} />
+                <AddPosition isCreatePool={false} poolInfo={pool} />
               </Card>
             </div>
           </div>

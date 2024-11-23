@@ -21,6 +21,7 @@ import { useTonClient } from "./hooks/useTonClient";
 import { Address } from "@ton/core";
 import { Toaster } from "./components/ui/toaster";
 import { useTonConnect } from "./hooks/useTonConnect";
+import AddPositionPage from "./pages/AddPosition";
 // import { useCounterContract } from "./hooks/useCounterContract";
 // import { Button } from "@/components/ui/button";
 // import WebApp from "@twa-dev/sdk";
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
       children: [
         { path: "/", index: true, element: <Swap /> },
         { path: "/pools", element: <Pools /> },
+        { path: "/add-position", element: <AddPositionPage /> }
       ],
     },
   ],

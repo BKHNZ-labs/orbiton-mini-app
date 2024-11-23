@@ -10,12 +10,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Search } from "lucide-react";
-import AddPosition from "../AddPosition";
 import tokens from "@/assets/tokens.json";
 import { Pool } from "@/interfaces/pool";
 import PoolDetail from "../PoolDetail";
 import { useState } from "react";
 import pools from "@/assets/pools.json";
+import AddPosition from "../AddPosition/components/AddPosition";
 
 export default function Pools() {
   const [selectedPool, setSelectedPool] = useState<Pool | null>(null);
