@@ -1,22 +1,25 @@
 import { Address, Sender, SenderArguments } from "@ton/core";
-import { useTonConnectUI } from "@tonconnect/ui-react";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import { useEffect, useState } from "react";
 
 export function useTonConnect(): { sender: Sender } {
   const [tonConnectUI] = useTonConnectUI();
+  const addressTon = useTonAddress();
   const [address, setAddress] = useState<Address | undefined>(undefined);
 
   useEffect(() => {
     (async () => {
+      console.log("addressTon", addressTon);
+      console.log(tonConnectUI);
       if (!tonConnectUI) return;
-      if (await tonConnectUI.connectionRestored) {
+      if ((await tonConnectUI.connectionRestored) || tonConnectUI.connected) {
+        console.log("go here"); 
         if (tonConnectUI.account) {
-          console.log("go here"); 
           setAddress(Address.parse(tonConnectUI.account?.address));
         }
       }
     })();
-  }, [tonConnectUI]);
+  }, [tonConnectUI, addressTon]);
 
   return {
     sender: {
