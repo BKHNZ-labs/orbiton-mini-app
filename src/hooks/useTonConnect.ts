@@ -9,11 +9,8 @@ export function useTonConnect(): { sender: Sender } {
 
   useEffect(() => {
     (async () => {
-      console.log("addressTon", addressTon);
-      console.log(tonConnectUI);
       if (!tonConnectUI) return;
       if ((await tonConnectUI.connectionRestored) || tonConnectUI.connected) {
-        console.log("go here");
         if (tonConnectUI.account) {
           setAddress(Address.parse(tonConnectUI.account?.address));
         }

@@ -19,11 +19,22 @@ export default function AddPositionPage() {
         setToken0,
         setToken1,
         setCreatePoolParams,
+        createPosition,
+        setAmount0,
+        setAmount1,
+        setPriceMin,
+        setPriceMax,
+        setFocusID,
+        currentPrice,
         fee,
         token0,
         token1,
         createPoolParams,
         friendlyFee,
+        amount0,
+        amount1,
+        priceMin,
+        priceMax,
     } = useAddPosition(isCreatePool, poolInfo);
 
     const feeTiers = [
@@ -58,6 +69,7 @@ export default function AddPositionPage() {
                                 <Button
                                     variant="outline"
                                     className="w-full h-auto py-2 px-3 text-gray-800 hover:bg-gray-100"
+                                    disabled={!isCreatePool}
                                 >
                                     <img
                                         src={token0.image}
@@ -76,6 +88,7 @@ export default function AddPositionPage() {
                                 <Button
                                     variant="outline"
                                     className="w-full h-auto py-2 px-3 text-gray-800 hover:bg-gray-100"
+                                    disabled={!isCreatePool}
                                 >
                                     <img
                                         src={token1.image}
@@ -101,11 +114,10 @@ export default function AddPositionPage() {
                             {feeTiers.map((tier) => (
                                 <div
                                     key={tier.value}
-                                    className={`relative rounded-lg border ${
-                                        fee === tier.feeType
-                                            ? "border-purple-600 bg-purple-50"
-                                            : "border-gray-200 bg-gray-50"
-                                    } p-2 sm:p-3 cursor-pointer text-center`}
+                                    className={`relative rounded-lg border ${fee === tier.feeType
+                                        ? "border-purple-600 bg-purple-50"
+                                        : "border-gray-200 bg-gray-50"
+                                        } p-2 sm:p-3 cursor-pointer text-center`}
                                     onClick={() => setFee(tier.feeType)}
                                 >
                                     <div className="text-xs sm:text-sm font-medium">
@@ -125,7 +137,7 @@ export default function AddPositionPage() {
                                 <div className="space-y-1">
                                     <div className="text-xs text-gray-500">Low price</div>
                                     <div className="relative">
-                                        <Input className="bg-gray-50 pr-12 text-sm" defaultValue="2092.3024" />
+                                        <Input type='number' className="bg-gray-50 pr-12 text-sm" value={priceMin ? priceMin : 0} onChange={(e) => setPriceMin(e.target.value)} />
                                         <div className="absolute right-1 top-1/2 -translate-y-1/2 flex">
                                             <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
                                                 <Minus className="h-3 w-3" />
@@ -139,7 +151,7 @@ export default function AddPositionPage() {
                                 <div className="space-y-1">
                                     <div className="text-xs text-gray-500">High price</div>
                                     <div className="relative">
-                                        <Input className="bg-gray-50 pr-12 text-sm" defaultValue="5563.4375" />
+                                        <Input type='number' className="bg-gray-50 pr-12 text-sm" value={priceMax ? priceMax : 0} onChange={(e) => setPriceMax(e.target.value)} />
                                         <div className="absolute right-1 top-1/2 -translate-y-1/2 flex">
                                             <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
                                                 <Minus className="h-3 w-3" />
@@ -160,7 +172,7 @@ export default function AddPositionPage() {
                             <div className="flex justify-between text-sm">
                                 <span>Current Price:</span>
                                 <span>
-                                    1.2 {token1.symbol} per {token0.symbol}
+                                    {currentPrice ? currentPrice : "1"} {token1.symbol} per {token0.symbol}
                                 </span>
                             </div>
                         </div>
@@ -202,7 +214,10 @@ export default function AddPositionPage() {
                         {[token0, token1].map((token, index) => (
                             <div key={token.symbol} className="space-y-1">
                                 <div className="relative">
-                                    <Input className="bg-gray-50 pr-20 text-sm" defaultValue={index === 0 ? "1" : "2415.7"} />
+                                    <Input className="bg-gray-50 pr-20 text-sm" defaultValue={0} value={index === 0 ? amount0 : amount1}
+                                        onChange={index === 0 ? (e) => setAmount0(e.target.value) : (e) => setAmount1(e.target.value)}
+                                        onFocus={index === 0 ? () => setFocusID(0) : () => setFocusID(1)}
+                                    />
                                     <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
                                         <img
                                             src={token.image}
@@ -229,7 +244,7 @@ export default function AddPositionPage() {
                             ? !(getSubmitMessage() === "Create pool")
                             : !(getSubmitMessage() === "Add liquidity")
                     }
-                    onClick={isCreatePool ? () => createPool() : () => {}}
+                    onClick={isCreatePool ? () => createPool() : () => createPosition()}
                 >
                     {getSubmitMessage()}
                 </Button>

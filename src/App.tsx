@@ -63,6 +63,7 @@ function App() {
   const { fetchPoolList, poolList } = usePoolStore();
 
   useEffect(() => {
+    console.log({ poolList });
     if (tokenList.length > 0 && poolList.length === 0) {
       fetchPoolList(tokenList);
     }
@@ -120,16 +121,16 @@ function TopNavigator() {
     <>
       <Toaster />
       {/* Header */}
-      <header className="flex justify-center px-4 z-10">
-        <div className="container grid grid-cols-[1fr_3fr] items-center px-5 py-5 md:py-10 md:grid-cols-[1fr_auto_1fr]">
+      <header className="flex justify-center px-4 z-10 border-b border-gray-200 pb-2">
+        <div className="container grid grid-cols-[1fr_3fr] items-center px-5 py-2 md:py-4 md:grid-cols-[1fr_auto_1fr]">
           {/* Logo and Brand */}
           <div className="flex items-center justify-start">
             <NavLink to="/">
               <div className="inline-flex items-center justify-between px-xs md:w-[102px]">
                 <div className="relative">
-                  <Logo className="w-20 h-20" />
+                  <Logo className="w-16 h-16" />
                 </div>
-                <span className="text-3xl ml-4 hidden font-semibold md:inline-block">
+                <span className="text-2xl ml-4 hidden font-semibold md:inline-block">
                   Orbiton
                 </span>
               </div>
@@ -139,15 +140,14 @@ function TopNavigator() {
           {/* Desktop Navigation */}
           <nav className="items-center hidden md:flex">
             <NavigationMenu>
-              <NavigationMenuList className="gap-10 text-2xl">
+              <NavigationMenuList className="gap-10 text-xl">
                 {ROUTES.map(({ path, label, isIndex }) => (
                   <NavigationMenuItem key={path}>
                     <NavLink
                       to={`/${isIndex ? "" : path}`}
-                      // end={isIndex} // Ensures "Swap" (index) matches exactly
                       className={({ isActive }) =>
                         cn(
-                          "hover:bg-accent hover:text-primary py-3 px-8 rounded-full",
+                          "hover:bg-accent hover:text-primary py-2 px-6 rounded-full",
                           isActive && "text-primary bg-accent"
                         )
                       }
@@ -162,7 +162,7 @@ function TopNavigator() {
 
           {/* Connect Button */}
           <div className="flex justify-end text-4xl">
-            <TonConnectButton style={{ fontSize: 20 }} />
+            <TonConnectButton style={{ fontSize: 16 }} />
           </div>
         </div>
       </header>
@@ -173,30 +173,28 @@ function TopNavigator() {
       </div>
 
       {/* Footer */}
-      <footer>
-        <div className="fixed bottom-0 py-4 w-full md:hidden border-t-[1px] border-black">
-          <NavigationMenu className="max-w-full">
-            <NavigationMenuList className="gap-10 text-2xl">
-              {ROUTES.map(({ path, label, isIndex, icon: Icon }) => (
-                <NavigationMenuItem key={path}>
-                  <NavLink
-                    to={`/${isIndex ? "" : path}`}
-                    // end={isIndex}
-                    className={({ isActive }) =>
-                      cn(
-                        "hover:bg-accent hover:text-primary py-3 px-8 rounded-full",
-                        isActive && "text-primary bg-accent"
-                      )
-                    }
-                  >
-                    <Icon className="inline-block" /> {label}
-                  </NavLink>
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-      </footer>
+      <footer className="fixed flex justify-center bottom-0 left-0 right-0 bg-background/80 backdrop-blur-md border-t border-border shadow-lg md:hidden">
+      <NavigationMenu>
+        <NavigationMenuList className="flex justify-between items-center py-4 px-6 max-w-full">
+          {ROUTES.map(({ path, label, isIndex, icon: Icon }) => (
+            <NavigationMenuItem key={path} className="flex-1 mx-2 justify-center">
+              <NavLink
+                to={`/${isIndex ? "" : path}`}
+                className={({ isActive }) =>
+                  cn(
+                    "flex flex-col items-center py-3 px-16 w-full transition-colors duration-200 hover:text-primary hover:bg-accent/50 rounded-lg",
+                    isActive ? "text-primary bg-accent/30" : "text-muted-foreground"
+                  )
+                }
+              >
+                <Icon className="w-7 h-7 mb-1.5" />
+                <span className="text-sm font-medium">{label}</span>
+              </NavLink>
+            </NavigationMenuItem>
+          ))}
+        </NavigationMenuList>
+      </NavigationMenu>
+    </footer>
     </>
   );
 }

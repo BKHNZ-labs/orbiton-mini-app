@@ -1,7 +1,7 @@
 import { Token } from "./token";
 
 export type Pool = {
-  id: number;
+  id: string;
   address: string;
   token0: Token;
   token1: Token;
