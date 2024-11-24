@@ -63,7 +63,6 @@ function App() {
   const { fetchPoolList, poolList } = usePoolStore();
 
   useEffect(() => {
-    console.log({ poolList });
     if (tokenList.length > 0 && poolList.length === 0) {
       fetchPoolList(tokenList);
     }
@@ -168,7 +167,7 @@ function TopNavigator() {
       </header>
 
       {/* Main Content */}
-      <div>
+      <div className="pb-[150px]">
         <Outlet />
       </div>
 

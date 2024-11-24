@@ -1,17 +1,21 @@
-import { useNavigate, useLocation } from 'react-router-dom';
-import { ChevronDown, Minus, MoveLeft, Plus, X } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { FeeAmount } from "@/interfaces/fee";
+import { ChevronDown, Minus, MoveLeft, Plus } from 'lucide-react';
+import { useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import TokenSelector from "../TokenSelector";
 import { useAddPosition } from "./hooks/useAddPosition";
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Card } from '@/components/ui/card';
 
 export default function AddPositionPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const { isCreatePool, poolInfo } = location.state || {};
+    const inputRef = useRef(null);
+
+    const addLiquidityRef = useRef(null);
 
     const {
         createPool,
@@ -191,11 +195,17 @@ export default function AddPositionPage() {
 
                         <div className="space-y-2">
                             <Input
+                                ref={inputRef}
                                 className="bg-gray-50 text-sm"
                                 value={createPoolParams.initPrice}
                                 onChange={(e) =>
                                     setCreatePoolParams({ initPrice: e.target.value })
                                 }
+                                // onFocus={}
+                                onFocus={() => window.scrollTo({
+                                    top: (inputRef.current as any).offsetTop,
+                                    behavior: 'smooth'
+                                })}
                             />
                             <div className="flex justify-between text-xs sm:text-sm text-gray-600">
                                 <span>Starting {token1.symbol} Price:</span>
@@ -214,9 +224,15 @@ export default function AddPositionPage() {
                         {[token0, token1].map((token, index) => (
                             <div key={token.symbol} className="space-y-1">
                                 <div className="relative">
-                                    <Input className="bg-gray-50 pr-20 text-sm" defaultValue={0} value={index === 0 ? amount0 : amount1}
+                                    <Input ref={addLiquidityRef} className="bg-gray-50 pr-20 text-sm" defaultValue={0} value={index === 0 ? amount0 : amount1}
                                         onChange={index === 0 ? (e) => setAmount0(e.target.value) : (e) => setAmount1(e.target.value)}
-                                        onFocus={index === 0 ? () => setFocusID(0) : () => setFocusID(1)}
+                                        onFocus={() => {
+                                            index === 0 ? () => setFocusID(0) : () => setFocusID(1);
+                                            window.scrollTo({
+                                                top: (addLiquidityRef.current as any).offsetTop,
+                                                behavior: 'smooth'
+                                            });
+                                        }}
                                     />
                                     <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
                                         <img

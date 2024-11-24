@@ -26,8 +26,6 @@ import useDebounce from "@/hooks/useDebounce";
 
 export default function Swap() {
   const tokens = useTokenStore((state) => state.tokenList);
-
-  const { sendIncrement } = useCounterContract();
   const [token0, setToken0] = useState<Token>(tokens[1]);
   const [token1, setToken1] = useState<Token>(tokens[0]);
   const [amountIn, setAmountIn] = useState<string>("");

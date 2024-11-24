@@ -2,11 +2,9 @@ import { getSimulateExactInAmountOut } from "@/apis/indexer";
 import { ROUTER_ADDRESS } from "@/constants";
 import { useAsyncInitialize } from "@/hooks/useAsyncInitialize";
 import { useJettonWallet } from "@/hooks/useJettonWallet";
-import { useTonClient } from "@/hooks/useTonClient";
 import { useTonConnect } from "@/hooks/useTonConnect";
 import { Address, beginCell, Dictionary, toNano } from "@ton/core";
 import {
-  JettonWalletWrapper,
   MAX_SQRT_RATIO,
   MIN_SQRT_RATIO,
   PoolWrapper,
@@ -15,18 +13,17 @@ import { useEffect, useState } from "react";
 
 export const useSwap = () => {
   const { sender } = useTonConnect();
-  const client = useTonClient();
 
   const [simulateParams, setSimulateParams] = useState<{
     tokenIn: string;
     tokenOut: string;
     amountIn: string | undefined;
-    swapper: Address | undefined;
+    // swapper: Address | undefined;
   }>({
     tokenIn: "",
     tokenOut: "",
     amountIn: undefined,
-    swapper: sender.address,
+    // swapper: sender.address,
   });
   const [simulateResponse, setSimulateResponse] = useState({
     jettonRouterWallet0: "",
@@ -37,16 +34,21 @@ export const useSwap = () => {
     fee: 0,
   });
 
+  // useEffect(() => {
+  //   if (sender) {
+  //     setSimulateParams((prev) => ({
+  //       ...prev,
+  //       swapper: sender.address,
+  //     }));
+  //   }
+  // }, [sender]);
+
   useEffect(() => {
     (async () => {
-      if (!simulateParams.swapper) {
-        setSimulateParams({ ...simulateParams, swapper: sender.address });
-      }
       if (
         !simulateParams.tokenIn ||
         !simulateParams.tokenOut ||
-        !simulateParams.swapper ||
-        !simulateParams.amountIn
+        !simulateParams.amountIn 
       ) {
         return;
       }
@@ -54,7 +56,7 @@ export const useSwap = () => {
         simulateParams.tokenIn,
         simulateParams.tokenOut,
         simulateParams.amountIn,
-        simulateParams.swapper.toString()
+        sender.address?.toString() || ""
       );
       setSimulateResponse(response);
     })();
@@ -75,6 +77,7 @@ export const useSwap = () => {
 
   return {
     swap: () => {
+      console.log({ simulateResponse, routerWalletOut, sender, simulateParams })
       if (!routerWalletOut || !sender?.address || !simulateParams.amountIn) {
         throw new Error("Router wallet out is not initialized");
       }
