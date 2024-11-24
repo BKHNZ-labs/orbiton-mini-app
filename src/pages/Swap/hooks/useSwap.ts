@@ -62,9 +62,12 @@ export const useSwap = () => {
 
   const { jettonMinter: jettonMinter0, jettonWallet: tokenInContract } =
     useJettonWallet(simulateParams.tokenIn);
+  const { jettonMinter: jettonMinterOut } = useJettonWallet(
+    simulateParams.tokenOut
+  );
 
   const routerWalletOut = useAsyncInitialize(async () => {
-    const routerWalletOut = await jettonMinter0?.getWalletAddress(
+    const routerWalletOut = await jettonMinterOut?.getWalletAddress(
       Address.parse(ROUTER_ADDRESS)
     );
     return routerWalletOut;
