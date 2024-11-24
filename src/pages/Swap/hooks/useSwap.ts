@@ -73,7 +73,7 @@ export const useSwap = () => {
       Address.parse(ROUTER_ADDRESS)
     );
     return routerWalletOut;
-  }, [jettonMinter0]);
+  }, [jettonMinterOut]);
 
   return {
     swap: () => {
