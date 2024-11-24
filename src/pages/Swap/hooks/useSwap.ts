@@ -2,9 +2,12 @@ import { getSimulateExactInAmountOut } from "@/apis/indexer";
 import { ROUTER_ADDRESS } from "@/constants";
 import { useAsyncInitialize } from "@/hooks/useAsyncInitialize";
 import { useJettonWallet } from "@/hooks/useJettonWallet";
+import { useTonClient } from "@/hooks/useTonClient";
 import { useTonConnect } from "@/hooks/useTonConnect";
-import { Address, beginCell, Dictionary, toNano } from "@ton/core";
+import { Address, beginCell, Dictionary, OpenedContract, toNano } from "@ton/core";
 import {
+  JettonMinterWrapper,
+  JettonWalletWrapper,
   MAX_SQRT_RATIO,
   MIN_SQRT_RATIO,
   PoolWrapper,
@@ -12,6 +15,7 @@ import {
 import { useEffect, useState } from "react";
 
 export const useSwap = () => {
+  const client = useTonClient();
   const { sender } = useTonConnect();
 
   const [simulateParams, setSimulateParams] = useState<{
@@ -62,22 +66,56 @@ export const useSwap = () => {
     })();
   }, [simulateParams, sender]);
 
-  const { jettonMinter: jettonMinter0, jettonWallet: tokenInContract } =
-    useJettonWallet(simulateParams.tokenIn);
-  const { jettonMinter: jettonMinterOut } = useJettonWallet(
-    simulateParams.tokenOut
-  );
+  // const { jettonMinter: jettonMinter0, jettonWallet: tokenInContract } =
+  //   useJettonWallet(simulateParams.tokenIn);
+  // const { jettonMinter: jettonMinterOut } = useJettonWallet(
+  //   simulateParams.tokenOut
+  // );
+
+  const jettonMinter0 = useAsyncInitialize(async () => {
+    if (!client || !simulateParams.tokenIn) return null;
+    const contract = new JettonMinterWrapper.JettonMinter(
+      Address.parse(simulateParams.tokenIn)
+    );
+
+    return client.open(
+      contract
+    ) as OpenedContract<JettonMinterWrapper.JettonMinter>;
+  }, [client, simulateParams]);
+
+  const jettonWallet0 = useAsyncInitialize(async () => {
+    if (!jettonMinter0) return null;
+    return jettonMinter0.getWalletAddress(sender.address!);
+  }, [jettonMinter0]);
+
+  const tokenInContract = useAsyncInitialize(async () => {
+    if (!client || !jettonWallet0) return;
+    const contract = new JettonWalletWrapper.JettonWallet(
+      jettonWallet0
+    );
+    return client.open(contract) as OpenedContract<JettonWalletWrapper.JettonWallet>;
+  }, [client, jettonWallet0]);
+
+  const jettonMinter1 = useAsyncInitialize(async () => {
+    if (!client || !simulateParams.tokenOut) return null;
+    const contract = new JettonMinterWrapper.JettonMinter(
+      Address.parse(simulateParams.tokenOut)
+    );
+    return client.open(
+      contract
+    ) as OpenedContract<JettonMinterWrapper.JettonMinter>;
+  }, [client, simulateParams]);
 
   const routerWalletOut = useAsyncInitialize(async () => {
-    const routerWalletOut = await jettonMinterOut?.getWalletAddress(
+    const routerWalletOut = await jettonMinter1?.getWalletAddress(
       Address.parse(ROUTER_ADDRESS)
     );
     return routerWalletOut;
-  }, [jettonMinterOut]);
+  }, [jettonMinter1]);
 
   return {
     swap: () => {
-      console.log({ simulateResponse, routerWalletOut, sender, simulateParams })
+      console.log({ simulateResponse, routerWalletOut, sender, simulateParams, jettonMinter0, jettonMinter1 })
       if (!routerWalletOut || !sender?.address || !simulateParams.amountIn) {
         throw new Error("Router wallet out is not initialized");
       }
