@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,19 +15,35 @@ import {
   RefreshCcw,
   Settings,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TokenSelector from "../TokenSelector";
 import { Token } from "@/interfaces";
 import useTokenStore from "@/store/tokenStore";
+import { useCounterContract } from "@/hooks/useCounterContract";
+import { getSimulateExactInAmountOut } from "@/apis/indexer";
+import { useSwap } from "./hooks/useSwap";
+import useDebounce from "@/hooks/useDebounce";
 
 export default function Swap() {
   const tokens = useTokenStore((state) => state.tokenList);
 
-  const [token0, setToken0] = useState<Token>(tokens[0]);
-  const [token1, setToken1] = useState<Token>(tokens[1]);
+  const { sendIncrement } = useCounterContract();
+  const [token0, setToken0] = useState<Token>(tokens[1]);
+  const [token1, setToken1] = useState<Token>(tokens[0]);
+  const [amountIn, setAmountIn] = useState<string>("");
+  const amountDebounce = useDebounce(amountIn, 500);
+  const { simulateResponse, setSimulateParams, simulateParams, swap } =
+    useSwap();
 
-  const [amount1, setAmount1] = useState("");
-  const [amount2, setAmount2] = useState("");
+  useEffect(() => {
+    if (!token0.address || !token1.address) return;
+    setSimulateParams({
+      ...simulateParams,
+      tokenIn: token0.address,
+      tokenOut: token1.address,
+      amountIn: amountDebounce,
+    });
+  }, [amountDebounce, token0, token1]);
 
   return (
     <div className="min-h-fit bg-background p-4 flex justify-center">
@@ -60,8 +75,8 @@ export default function Swap() {
               <div className="flex justify-between mb-2">
                 <Input
                   type="number"
-                  value={amount1}
-                  onChange={(e) => setAmount1(e.target.value)}
+                  value={amountIn}
+                  onChange={(e) => setAmountIn(e.target.value)}
                   className="border-0 bg-transparent text-2xl text-primary placeholder:text-muted-foreground focus-visible:ring-0 p-0 h-auto"
                   placeholder="0"
                 />
@@ -84,7 +99,7 @@ export default function Swap() {
                 />
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">${amount1 ? "0" : "0"}</span>
+                <span className="text-gray-500">${amountIn ? "0" : "0"}</span>
                 <span className="text-gray-500">
                   <Circle className="h-3 w-3 inline mr-1 fill-gray-500" />0 DUST
                 </span>
@@ -105,11 +120,11 @@ export default function Swap() {
               <div className="flex justify-between mb-2">
                 <Input
                   type="number"
-                  value={amount1}
-                  onChange={(e) => setAmount1(e.target.value)}
+                  value={simulateResponse.simulateAmountOut}
+                  // onChange={(e) => setAmount1(e.target.value)}
+                  disabled={true}
                   className="border-0 bg-transparent text-2xl text-primary placeholder:text-muted-foreground focus-visible:ring-0 p-0 h-auto"
                   placeholder="0"
-
                 />
                 <TokenSelector
                   children={
@@ -130,7 +145,9 @@ export default function Swap() {
                 />
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">${amount2 ? "0" : "0"}</span>
+                <span className="text-gray-500">
+                  ${simulateResponse.simulateAmountOut}
+                </span>
                 <span className="text-gray-500">
                   <Circle className="h-3 w-3 inline mr-1 fill-gray-500" />0 TON
                 </span>
@@ -142,7 +159,7 @@ export default function Swap() {
           <Button
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 text-lg"
             size="lg"
-            onClick={() => {}}
+            onClick={() => swap()}
           >
             Swap
           </Button>
