@@ -18,14 +18,12 @@ import {
 import { useEffect, useState } from "react";
 import TokenSelector from "../TokenSelector";
 import { Token } from "@/interfaces";
-import useTokenStore from "@/store/tokenStore";
-import { useCounterContract } from "@/hooks/useCounterContract";
-import { getSimulateExactInAmountOut } from "@/apis/indexer";
 import { useSwap } from "./hooks/useSwap";
 import useDebounce from "@/hooks/useDebounce";
+import tokens from "@/assets/tokens.json";
 
 export default function Swap() {
-  const tokens = useTokenStore((state) => state.tokenList);
+  // const tokens = useTokenStore((state) => state.tokenList);
   const [token0, setToken0] = useState<Token>(tokens[1]);
   const [token1, setToken1] = useState<Token>(tokens[0]);
   const [amountIn, setAmountIn] = useState<string>("");

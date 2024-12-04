@@ -4,7 +4,6 @@ export interface Token {
   address: string | null;
   name: string;
   symbol: string;
-  description: string | null;
   image: string;
   decimals: number;
   aliased: boolean;
