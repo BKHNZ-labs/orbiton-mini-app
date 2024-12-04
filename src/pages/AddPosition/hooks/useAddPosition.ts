@@ -109,7 +109,8 @@ export const useAddPosition = (isCreatePool: boolean, poolInfo?: Pool) => {
   const { reserve0, reserve1 } = useMemo(() => {
     if (isCreatePool) {
       const initPrice = Number(createPoolParams.initPrice);
-      const { numerator, denominator } = toFraction(initPrice);
+      // console.log('initPrice', initPrice * 10 ^ (token1.decimals - token0.decimals));
+      const { numerator, denominator } = toFraction(initPrice * 10 ** (token1.decimals - token0.decimals));
       return {
         reserve0: denominator,
         reserve1: numerator,
@@ -224,6 +225,8 @@ export const useAddPosition = (isCreatePool: boolean, poolInfo?: Pool) => {
 
   return {
     createPool: () => {
+      // console.log("clicked")
+      console.log(BigInt(reserve0), BigInt(reserve1))
       return routerContract?.sendCreatePool(
         sender,
         {
