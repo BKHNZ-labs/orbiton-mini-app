@@ -123,7 +123,7 @@ export function tickToPrice(tick: number): number {
 
 export function priceToClosestTick(price: number, tickSpacing: number): number {
   const { numerator, denominator } = toFraction(price);
-  const sqrtRatioX96 = encodeSqrtRatioX96(denominator, numerator);
+  const sqrtRatioX96 = encodeSqrtRatioX96(numerator, denominator);
 
   let tick = TickMath.getTickAtSqrtRatio(sqrtRatioX96)
   const nextTickPrice = tickToPrice(tick + 1);
@@ -174,7 +174,6 @@ export function maxLiquidityForAmount0Precise(sqrtRatioAX96: bigint, sqrtRatioBX
 
   const numerator = BigInt(amount0) * sqrtRatioAX96 * sqrtRatioBX96
   const denominator = BigInt(Q96.toFixed()) * (sqrtRatioBX96 - sqrtRatioAX96)
-
   return numerator / denominator
 }
 
@@ -182,16 +181,18 @@ export function maxLiquidityForAmount1(sqrtRatioAX96: bigint, sqrtRatioBX96: big
   if (sqrtRatioAX96 > sqrtRatioBX96) {
     ;[sqrtRatioAX96, sqrtRatioBX96] = [sqrtRatioBX96, sqrtRatioAX96]
   }
+
   return (BigInt(amount1) * BigInt(Q96.toFixed())) / (sqrtRatioBX96 - sqrtRatioAX96)
 }
 
 export function calculateOtherAmount0(
-  sqrtRatioAX96: bigint,
-  sqrtRatioBX96: bigint,
+  sqrtRatioAX96: bigint, // lower
+  currentSqrtPriceX96: bigint, // current
+  sqrtRatioBX96: bigint, // upper
   amount0: BigintIsh
 ): { amount: bigint; liquidity: bigint } {
-  const liquidity = maxLiquidityForAmount0Precise(sqrtRatioAX96, sqrtRatioBX96, amount0)
-  const otherAmount1 = SqrtPriceMath.getAmount1Delta(sqrtRatioAX96, sqrtRatioBX96, liquidity, true);
+  const liquidity = maxLiquidityForAmount0Precise(sqrtRatioBX96, currentSqrtPriceX96, amount0)
+  const otherAmount1 = SqrtPriceMath.getAmount1Delta(sqrtRatioAX96, currentSqrtPriceX96, liquidity, true);
   return { amount: otherAmount1, liquidity };
 }
 

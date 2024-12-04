@@ -71,7 +71,7 @@ export default function Swap() {
             <div className="rounded-lg bg-muted p-4 border border-border">
               <div className="flex justify-between mb-2">
                 <Input
-                  type="number"
+                  type="text"
                   defaultValue={0}
                   value={Number(amountIn) / 10 ** (token0.decimals)}
                   onChange={(e) => setAmountIn(Number(e.target.value ?? "0") * 10 ** (token0.decimals))}
@@ -117,7 +117,7 @@ export default function Swap() {
             <div className="rounded-lg bg-muted p-4 border border-border">
               <div className="flex justify-between mb-2">
                 <Input
-                  type="number"
+                  type="text"
                   value={Number(simulateResponse.simulateAmountOut) / 10 ** (token1.decimals)}
                   // onChange={(e) => setAmount1(e.target.value)}
                   disabled={true}

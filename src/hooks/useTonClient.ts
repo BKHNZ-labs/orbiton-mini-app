@@ -6,7 +6,8 @@ export function useTonClient() {
   return useAsyncInitialize(
     async () =>
       new TonClient({
-        endpoint: await getHttpEndpoint({ network: "mainnet" }),
+        endpoint: "https://magical-young-wind.ton-mainnet.quiknode.pro/a352ba98c355055971794805357acbef7c037409/jsonRPC",
+
       })
   );
 }
