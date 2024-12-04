@@ -1,7 +1,7 @@
 import { FeeAmount } from "@/interfaces/fee";
 
 export const ROUTER_ADDRESS =
-  "EQCxsxZelJMjCpOrr93GO_d5W1RnBjr0x3O9M0rt1IJXTBiC";
+  "EQCqQgmHCjGRumLtVZXoZz-4n7Zxa1BNZ673eCbCy3B9X-rL";
 
 export const FEE_MAP = [
   {
