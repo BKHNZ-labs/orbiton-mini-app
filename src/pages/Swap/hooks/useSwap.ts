@@ -56,6 +56,9 @@ export const useSwap = () => {
       ) {
         return;
       }
+
+      console.log({ simulateParams });
+
       const response = await getSimulateExactInAmountOut(
         simulateParams.tokenIn,
         simulateParams.tokenOut,
